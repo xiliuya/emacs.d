@@ -2,25 +2,37 @@
 ;;; Commentary:
 ;;; Code:
 
+;;; 配置 sdcv 
+(require-package 'sdcv)
 ;;; (require 'sdcv)
 
 (global-set-key (kbd "<f9>") 'sdcv-search-pointer)
 (global-set-key (kbd "<f8>") 'sdcv-search-pointer+)
 
+
+;;; 配置 源镜像
 (setq package-enable-at-startup nil)
 (setq package-archives
       '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
         ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
         ("nongnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
 
-;;; evil 配置
+;;; 配置 evil 
+(require-package 'evil)
+(require-package 'evil-escape)
+
+(require 'evil)
 (evil-mode)
 ;;; (local-set-key (kbd "jj") 'evil-normal-state)
 (with-eval-after-load 'evil
   (evil-escape-mode))
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
-;;; 配置pyim
+
+;;; 配置 pyim 
+(require-package 'pyim)
+(require-package 'pyim-basedict)
+
 (require 'pyim)
 (require 'pyim-basedict)
 (require 'pyim-cregexp-utils)
@@ -72,17 +84,20 @@
 
 ;; 开启代码搜索中文功能（比如拼音，五笔码等）
 (pyim-isearch-mode 1)
-;;; 配置全角半角字符 yes|no|auto
+;;; 配置 全角半角字符 yes|no|auto
 (setq-default pyim-punctuation-translate-p '(no))
 
-;;; 配置org 导出添加markdown 格式
+;;; 配置 org 导出添加markdown 格式
 (with-eval-after-load 'org
   (add-to-list 'org-export-backends 'md))
 
+;;; 配置 org 下的 ditaa plantuml 
 (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
 
-;;; 配置eglot
+
+
+;;; 配置 eglot
 ;;;(add-hook 'prog-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
 (add-hook 'c-mode-common-hook 'eglot-ensure)
@@ -90,7 +105,9 @@
 
 ;;; (add-hook 'prog-mode-hook #'yas-minor-mode)
 
-;;; 使用auto-insert
+;;; 配置 auto-insert 
+(require-package 'yasnippet)
+
 (add-hook 'find-file-hook 'auto-insert)
 (add-hook 'find-file-hook #'yas-minor-mode)
 (with-eval-after-load 'yasnippet
