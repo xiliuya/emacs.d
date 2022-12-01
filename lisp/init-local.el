@@ -2,9 +2,16 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; 配置 sdcv 
 (require-package 'sdcv)
-;;; (require 'sdcv)
+(require-package 'evil)
+(require-package 'evil-escape)
+
+(require-package 'pyim)
+(require-package 'pyim-basedict)
+(require-package 'yasnippet)
+
+;;; 配置 sdcv 
+(require 'sdcv)
 
 (global-set-key (kbd "<f9>") 'sdcv-search-pointer)
 (global-set-key (kbd "<f8>") 'sdcv-search-pointer+)
@@ -18,8 +25,6 @@
         ("nongnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
 
 ;;; 配置 evil 
-(require-package 'evil)
-(require-package 'evil-escape)
 
 (require 'evil)
 (evil-mode)
@@ -30,8 +35,6 @@
 (setq-default evil-escape-delay 0.2)
 
 ;;; 配置 pyim 
-(require-package 'pyim)
-(require-package 'pyim-basedict)
 
 (require 'pyim)
 (require 'pyim-basedict)
@@ -106,7 +109,6 @@
 ;;; (add-hook 'prog-mode-hook #'yas-minor-mode)
 
 ;;; 配置 auto-insert 
-(require-package 'yasnippet)
 
 (add-hook 'find-file-hook 'auto-insert)
 (add-hook 'find-file-hook #'yas-minor-mode)
