@@ -33,6 +33,8 @@
   (evil-escape-mode))
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
+;;; 配置org-mode 下正常模式的 tab 切换
+(define-key evil-normal-state-map (kbd "<tab>") 'org-cycle)
 
 ;;; 配置 pyim 
 
