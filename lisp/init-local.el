@@ -13,6 +13,15 @@
 ;;; 配置 sdcv 
 (require 'sdcv)
 
+;;; 修复悬浮窗口问题
+;;;(setq sdcv-popup-function 'showtip)
+;;;(setq sdcv-popup-function 'tooltip-show)
+(setq sdcv-popup-function 'pos-tip-show)
+  ;;;(showtip "helll")
+(setq sdcv-word-pronounce 'nil)
+  ;;; (sdcv-search-simple "hello")
+  ;;; (sdcv-search-with-dictionary-args "say" sdcv-dictionary-simple-list)
+;;; 定义键绑定
 (global-set-key (kbd "<f9>") 'sdcv-search-pointer)
 (global-set-key (kbd "<f8>") 'sdcv-search-pointer+)
 
