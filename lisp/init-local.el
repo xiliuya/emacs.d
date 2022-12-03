@@ -25,6 +25,28 @@
 (global-set-key (kbd "<f9>") 'sdcv-search-pointer)
 (global-set-key (kbd "<f8>") 'sdcv-search-pointer+)
 
+;;; 配置修复 espeak 使用时出现的白屏
+(with-eval-after-load 'sdcv
+  (defun sdcv-search-simple (&optional word)
+    "Search WORD simple translate result."
+    (funcall
+     sdcv-popup-function
+     (sdcv-filter
+      (shell-command-to-string
+       (mapconcat #'identity
+                  (cons "sdcv" (sdcv-search-with-dictionary-args
+                                (or word (sdcv-region-or-word))
+                                sdcv-dictionary-simple-list))
+                  " "))))
+
+    ;; pronounce the word (Add by me)
+    (when sdcv-word-pronounce
+      ;; `sleep-for', `sit-for'.
+      (sit-for 0.8)
+      (sdcv-pronounce-word word)
+      )
+    )
+  )
 
 ;;; 配置 源镜像
 (setq package-enable-at-startup nil)
@@ -182,6 +204,37 @@
                          . "TeX/LaTeX")
                         . ["template.tex"
                            my/autoinsert-yas-expand]))))
+
+;;; 配置 erc
+(require 'erc-backend)
+(require 'erc-sasl)
+(add-to-list 'erc-sasl-server-regexp-list "irc\\.libera\\.chat")
+(with-eval-after-load 'erc
+  (defun erc-login ()
+    "Perform user authentication at the IRC server. (PATCHED)"
+    (erc-log (format "login: nick: %s, user: %s %s %s :%s"
+                     (erc-current-nick)
+                     (user-login-name)
+                     (or erc-system-name (system-name))
+                     erc-session-server
+                     erc-session-user-full-name))
+    (if erc-session-password
+        (erc-server-send (format "PASS %s" erc-session-password))
+      (message "Logging in without password"))
+    (when (and (featurep 'erc-sasl) (erc-sasl-use-sasl-p))
+      (erc-server-send "CAP REQ :sasl"))
+    (erc-server-send (format "NICK %s" (erc-current-nick)))
+    (erc-server-send
+     (format "USER %s %s %s :%s"
+             ;; hacked - S.B.
+             (if erc-anonymous-login erc-email-userid (user-login-name))
+             "0" "*"
+             erc-session-user-full-name))
+    (erc-update-mode-line))
+  )
+(setq erc-autojoin-channels-alist
+      '((Libera.Chat "#libera" "#list" "#linux" "$emacs")))
+
 
 
 (provide 'init-local)
