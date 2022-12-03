@@ -10,7 +10,7 @@
 (require-package 'pyim-basedict)
 (require-package 'yasnippet)
 
-;;; 配置 sdcv 
+;;; 配置 sdcv
 (require 'sdcv)
 
 ;;; 修复悬浮窗口问题
@@ -33,7 +33,7 @@
         ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
         ("nongnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
 
-;;; 配置 evil 
+;;; 配置 evil
 
 (require 'evil)
 (evil-mode)
@@ -42,10 +42,24 @@
   (evil-escape-mode))
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
-;;; 配置org-mode 下正常模式的 tab 切换
+;;; 配置 org-mode 下正常模式的 tab 切换 
 (define-key evil-normal-state-map (kbd "<tab>") 'org-cycle)
+;;; 配置 插入模式键绑定 
+(defun maple/define-key (keymap key def &rest bindings)
+  "Define multi keybind with KEYMAP KEY DEF BINDINGS."
+  (interactive)
+  (while key
+    (define-key keymap key def)
+    (setq key (pop bindings)
+          def (pop bindings))))
 
-;;; 配置 pyim 
+(maple/define-key evil-insert-state-map
+                  (kbd "M-h") (kbd "<left>")
+                  (kbd "M-l") (kbd "<right>")
+                  (kbd "M-j") (kbd "<down>")
+                  (kbd "M-k") (kbd "<up>"))
+
+;;; 配置 pyim
 
 (require 'pyim)
 (require 'pyim-basedict)
@@ -67,7 +81,7 @@
 (setq pyim-page-length 5)
 
 ;; 金手指设置，可以将光标处的编码，比如：拼音字符串，转换为中文。
-(global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
+(global-set-key (kbd "M-'") 'pyim-convert-string-at-point)
 
 ;; 按 "C-<return>" 将光标前的 regexp 转换为可以搜索中文的 regexp.
 (define-key minibuffer-local-map (kbd "C-<return>") 'pyim-cregexp-convert-at-point)
@@ -105,7 +119,7 @@
 (with-eval-after-load 'org
   (add-to-list 'org-export-backends 'md))
 
-;;; 配置 org 下的 ditaa plantuml 
+;;; 配置 org 下的 ditaa plantuml
 (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
 
@@ -119,7 +133,7 @@
 
 ;;; (add-hook 'prog-mode-hook #'yas-minor-mode)
 
-;;; 配置 auto-insert 
+;;; 配置 auto-insert
 
 (add-hook 'find-file-hook 'auto-insert)
 (add-hook 'find-file-hook #'yas-minor-mode)
