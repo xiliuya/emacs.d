@@ -18,7 +18,7 @@
 ;;;(setq sdcv-popup-function 'tooltip-show)
 (setq sdcv-popup-function 'pos-tip-show)
   ;;;(showtip "helll")
-(setq sdcv-word-pronounce 'nil)
+;;;(setq sdcv-word-pronounce 'nil)
   ;;; (sdcv-search-simple "hello")
   ;;; (sdcv-search-with-dictionary-args "say" sdcv-dictionary-simple-list)
 ;;; 定义键绑定
