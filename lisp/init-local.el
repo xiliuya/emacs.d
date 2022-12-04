@@ -146,6 +146,31 @@
 (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
 
+;;; 配置 org-roam
+
+(global-set-key (kbd "C-c n l")  'org-roam-buffer-toggle)
+(global-set-key (kbd "C-c n g") 'org-roam-graph)
+(global-set-key (kbd "C-c n i") 'org-roam-node-insert)
+(global-set-key (kbd "C-c n c") 'org-roam-capture)
+(global-set-key (kbd "C-c n j") 'org-roam-dailies-capture-today)
+
+(global-set-key (kbd "C-c n d") 'org-id-get-create)
+
+(setq org-roam-directory "~/myday")
+(setq org-roam-node-display-template
+      (concat "${title:*} "
+              (propertize "${tags:10}" 'face 'org-tag)))
+(org-roam-db-autosync-mode)
+;; If using org-roam-protocol
+(require 'org-roam-protocol)
+
+
+(setq find-file-visit-truename t)
+
+(setq org-roam-ui-sync-theme t
+      org-roam-ui-follow t
+      org-roam-ui-update-on-save t
+      org-roam-ui-open-on-start t)
 
 
 ;;; 配置 eglot
