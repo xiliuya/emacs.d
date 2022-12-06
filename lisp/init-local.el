@@ -10,6 +10,9 @@
 (require-package 'pyim-basedict)
 (require-package 'yasnippet)
 
+(require-package 'org-roam)
+(require-package 'org-roam-ui)
+
 ;;; 配置 sdcv
 (require 'sdcv)
 
