@@ -167,6 +167,13 @@
 ;; If using org-roam-protocol
 (require 'org-roam-protocol)
 
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         "* %?"
+         :target (file+head "%<%Y-%m-%d>.org"
+                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/org.css\"/>\n#+OPTIONS: todo:nil num:3 H:4 ^:nil pri:t\n#+STARTUP: overview\n#+STARTUP: indent\n#+TAGS: { 桌面(d) 服务器(s) } 编辑器(e) 浏览器(f) 多媒体(m) 压缩(z) 终端(t)\n#+TAGS:  { @Windows(w) @Linux(l) }\n#+TAGS:  { 糟糕(1) 凑合(2) 不错(3) 很好(4) 极品(5) }\n#+SEQ_TODO: TODO(T) WAIT(W) | DONE(D!) CANCELED(C@)\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
+                            )
+         :unnarrowed t)))
 
 (setq find-file-visit-truename t)
 
