@@ -188,6 +188,10 @@
 (add-hook 'python-mode-hook 'eglot-ensure)
 (add-hook 'c-mode-common-hook 'eglot-ensure)
 (add-hook 'rust-mode-hook 'eglot-ensure)
+(with-eval-after-load 'eglot 
+  (define-key eglot-mode-map (kbd "C-c e r") #'eglot-rename)
+  (define-key eglot-mode-map (kbd "C-c e f") #'eglot-format)
+  )
 
 ;;; (add-hook 'prog-mode-hook #'yas-minor-mode)
 
