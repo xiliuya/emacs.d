@@ -198,6 +198,7 @@
 (with-eval-after-load 'yasnippet
   (yas-global-mode 1))
 (setq user-full-name "xiliuya")
+(setq user-mail-address "xiliuya@163.com")
 ;;; (auto-insert-mode 1)
 (defun my/autoinsert-yas-expand()
   "Replace text in yasnippet template."
