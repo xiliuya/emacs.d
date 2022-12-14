@@ -156,6 +156,8 @@
 (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
 (global-set-key (kbd "C-c n c") 'org-roam-capture)
 (global-set-key (kbd "C-c n j") 'org-roam-dailies-capture-today)
+(global-set-key (kbd "C-c n f") 'org-roam-node-find)
+(global-set-key (kbd "C-c n u") 'org-roam-ui-open)
 
 (global-set-key (kbd "C-c n d") 'org-id-get-create)
 
