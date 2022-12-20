@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: src_python
+# key: py_
+# --
+#+begin_src python :tangle ${1:yes} :shebang #!/usr/bin/env python3
+$2
+#+end_src

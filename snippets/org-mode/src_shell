@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: src_shell
+# key: sh_
+# --
+#+begin_src shell :tangle ${1:yes} :shebang #!/bin/bash
+$2
+#+end_src
