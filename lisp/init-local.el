@@ -278,7 +278,13 @@
 (setq erc-autojoin-channels-alist
       '((Libera.Chat "#libera" "#list" "#linux" "$emacs")))
 
-
+;;; 配置 gif 截图
+(require 'gif-screencast)
+(with-eval-after-load 'gif-screencast
+  (define-key gif-screencast-mode-map (kbd "C-<f12>") 'gif-screencast-toggle-pause)
+  (define-key gif-screencast-mode-map (kbd "<f12>") 'gif-screencast-stop)
+  (global-set-key (kbd "<f12>") 'gif-screencast)
+  )
 
 (provide 'init-local)
 ;;; init-local.el ends here
