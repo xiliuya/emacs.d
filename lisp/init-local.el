@@ -286,5 +286,26 @@
   (global-set-key (kbd "<f12>") 'gif-screencast)
   )
 
+;;; org-download 配置
+(require 'org-download)
+;;;(setq org-download-screenshot-method "flameshot gui --raw >%s")
+(setq org-download-screenshot-method "grim -g \"$(slurp)\" %s")
+;;;(setq org-download-method 'directory)
+
+;;; 屏蔽默认的图片保存, 直接保存到 ./images/xxx.png
+(setq-default org-download-heading-lvl nil)
+(setq-default org-download-image-dir "./images")
+;;; 屏蔽默认的插入头
+(defun dummy-org-download-annotate-function (link)
+  "")
+(setq org-download-annotate-function
+      #'dummy-org-download-annotate-function)
+;;; 取消默认的显示图片
+(setq org-download-display-inline-images nil)
+
+;;; 定义快捷键
+(define-key org-mode-map (kbd "C-c s s") #'org-download-screenshot)
+(define-key org-mode-map (kbd "C-c s c") #'org-download-clipboard)
+
 (provide 'init-local)
 ;;; init-local.el ends here
