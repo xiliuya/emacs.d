@@ -9,9 +9,12 @@
 (require-package 'pyim)
 (require-package 'pyim-basedict)
 (require-package 'yasnippet)
+(require-package 'yasnippet-snippets)
 
 (require-package 'org-roam)
 (require-package 'org-roam-ui)
+
+(require-package 'org-download)
 
 ;;; 配置 sdcv
 (require 'sdcv)
@@ -68,8 +71,18 @@
   (evil-escape-mode))
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
-;;; 配置 org-mode 下正常模式的 tab 切换 
-(define-key evil-normal-state-map (kbd "<tab>") 'org-cycle)
+;;; 配置 org-mode 下正常模式的 tab 切换
+(defun my/evil-org-tab ()
+  "Run org-cycle When in org-mode "
+  (interactive)
+  (when (memq major-mode '(org-mode))
+    ;;;(progn (message "hello"))
+    (org-cycle)
+    )
+  )
+(define-key evil-normal-state-map (kbd "<tab>") 'my/evil-org-tab)
+;;;(define-key evil-normal-state-map (kbd "<tab>") 'org-cycle)
+
 ;;; 配置 插入模式键绑定 
 (defun maple/define-key (keymap key def &rest bindings)
   "Define multi keybind with KEYMAP KEY DEF BINDINGS."
@@ -195,14 +208,15 @@
   (define-key eglot-mode-map (kbd "C-c e f") #'eglot-format)
   )
 
-;;; (add-hook 'prog-mode-hook #'yas-minor-mode)
-
+;;; 配置 yasnippet 
 ;;; 配置 auto-insert
 
 (add-hook 'find-file-hook 'auto-insert)
 (add-hook 'find-file-hook #'yas-minor-mode)
 (with-eval-after-load 'yasnippet
-  (yas-global-mode 1))
+  ;;;(add-hook 'prog-mode-hook #'yas-minor-mode)
+  (yas-global-mode 1)
+  )
 (setq user-full-name "xiliuya")
 (setq user-mail-address "xiliuya@163.com")
 ;;; (auto-insert-mode 1)
