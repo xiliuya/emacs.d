@@ -8,6 +8,8 @@
 
 (require-package 'pyim)
 (require-package 'pyim-basedict)
+(require-package 'posframe)
+
 (require-package 'yasnippet)
 (require-package 'yasnippet-snippets)
 
