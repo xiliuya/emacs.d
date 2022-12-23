@@ -73,7 +73,7 @@
 (setq-default evil-escape-delay 0.2)
 ;;; 配置 org-mode 下正常模式的 tab 切换
 (defun my/evil-org-tab ()
-  "Run org-cycle When in org-mode "
+  "Run 'org-cycle When in 'org-mode."
   (interactive)
   (when (memq major-mode '(org-mode))
     ;;;(progn (message "hello"))
@@ -83,7 +83,7 @@
 (define-key evil-normal-state-map (kbd "<tab>") 'my/evil-org-tab)
 ;;;(define-key evil-normal-state-map (kbd "<tab>") 'org-cycle)
 
-;;; 配置 插入模式键绑定 
+;;; 配置 插入模式键绑定
 (defun maple/define-key (keymap key def &rest bindings)
   "Define multi keybind with KEYMAP KEY DEF BINDINGS."
   (interactive)
@@ -99,6 +99,11 @@
                   (kbd "M-k") (kbd "<up>"))
 
 ;;; 配置 pyim
+
+;;; 禁用掉 gtk 的 im
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (pgtk-use-im-context nil)))
 
 (require 'pyim)
 (require 'pyim-basedict)
@@ -203,14 +208,15 @@
 (add-hook 'python-mode-hook 'eglot-ensure)
 (add-hook 'c-mode-common-hook 'eglot-ensure)
 (add-hook 'rust-mode-hook 'eglot-ensure)
-(with-eval-after-load 'eglot 
+(with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c e r") #'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c e f") #'eglot-format)
   )
 
-;;; 配置 yasnippet 
+;;; 配置 yasnippet
 ;;; 配置 auto-insert
-
+;; 由于出现了很多问题(pyim/yasinppets),暂时屏蔽掉 symbol-overlay
+(remove-hook 'prog-mode-hook 'symbol-overlay-mode)
 (add-hook 'find-file-hook 'auto-insert)
 (add-hook 'find-file-hook #'yas-minor-mode)
 (with-eval-after-load 'yasnippet
