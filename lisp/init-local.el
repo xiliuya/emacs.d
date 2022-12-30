@@ -22,6 +22,7 @@
 (require-package 'org-mpv-notes)
 
 (require-package 'org-modern)
+(require-package 'valign)
 
 ;;; 配置 sdcv
 (require 'sdcv)
@@ -104,6 +105,10 @@
                   (kbd "M-l") (kbd "<right>")
                   (kbd "M-j") (kbd "<down>")
                   (kbd "M-k") (kbd "<up>"))
+
+;;; 配置 evil-ex
+
+(evil-ex-define-cmd "k[illbuffer]" 'kill-this-buffer)
 
 ;;; 配置 pyim
 
@@ -355,5 +360,18 @@ Uses mpv.el to control mpv process"
 
 ;;; 配置 org-modern
 (add-hook 'org-mode-hook 'org-modern-mode)
+
+;;; 配置 org-mode
+;; 配置 todo 颜色
+(setq org-todo-keyword-faces '(("TODO" . "red")
+                               ("NEXT" . "yellow")
+                               ("DONE" . "green")))
+
+(add-hook 'org-mode-hook (lambda ()
+                           (setq truncate-lines nil)))
+
+(add-hook 'org-mode-hook 'org-indent-mode)
+(add-hook 'org-mode-hook 'org-overview)
+;;(add-hook 'org-mode-hook 'prose-mode)
 (provide 'init-local)
 ;;; init-local.el ends here
