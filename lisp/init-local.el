@@ -21,6 +21,8 @@
 (require-package 'mpv)
 (require-package 'org-mpv-notes)
 
+(require-package 'org-modern)
+
 ;;; 配置 sdcv
 (require 'sdcv)
 
@@ -343,9 +345,15 @@ Uses mpv.el to control mpv process"
               (,(kbd "M-n s") . org-mpv-notes-save-screenshot)
               (,(kbd "M-n o") . org-mpv-notes-open)
               (,(kbd "M-n k") . mpv-kill)
+              (,(kbd "M-n t") . org-mpv-notes-this-timestamp)
               (,(kbd "M-n M-s") . org-mpv-notes-screenshot-ocr))
     (if org-mpv-notes
         ()
       (mpv-kill))))
+
+(add-hook 'org-mode-hook 'org-mpv-notes)
+
+;;; 配置 org-modern
+(add-hook 'org-mode-hook 'org-modern-mode)
 (provide 'init-local)
 ;;; init-local.el ends here
