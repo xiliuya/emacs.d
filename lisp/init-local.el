@@ -203,7 +203,7 @@
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y-%m-%d>.org"
-                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/org.css\"/>\n#+OPTIONS: todo:nil num:3 H:4 ^:nil pri:t\n#+STARTUP: overview\n#+STARTUP: indent\n#+TAGS: { 桌面(d) 服务器(s) } 编辑器(e) 浏览器(f) 多媒体(m) 压缩(z) 终端(t)\n#+TAGS:  { @Windows(w) @Linux(l) }\n#+TAGS:  { 糟糕(1) 凑合(2) 不错(3) 很好(4) 极品(5) }\n#+SEQ_TODO: TODO(T) WAIT(W) | DONE(D!) CANCELED(C@)\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
+                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/org.css\"/>\n#+OPTIONS: todo:nil num:3 H:4 ^:nil pri:t\n#+TAGS:  { 糟糕(1) 凑合(2) 不错(3) 很好(4) 极品(5) }\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
                             )
          :unnarrowed t)))
 
@@ -367,11 +367,33 @@ Uses mpv.el to control mpv process"
                                ("NEXT" . "yellow")
                                ("DONE" . "green")))
 
-(add-hook 'org-mode-hook (lambda ()
-                           (setq truncate-lines nil)))
+;;; 配置 org-modern-todo 配色
 
-(add-hook 'org-mode-hook 'org-indent-mode)
-(add-hook 'org-mode-hook 'org-overview)
+(setq org-modern-todo-faces
+      '(("TODO" :foreground "silver" :inverse-video t)
+        ("NEXT" :foreground "white" :inverse-video t)
+        ;;("DONE" :foreground "gray" :inverse-video t)
+        ("PROJECT" :foreground "violet" :inverse-video t)
+        ("CANCELLED" :foreground "tan" :inverse-video t)
+        ))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            ;; 自动换行
+            (setq truncate-lines nil)
+            ))
+
+(setq
+ ;; 自动折叠列表
+ org-cycle-include-plain-lists 'integrate
+ ;; 自动折叠代码块
+ org-hide-block-startup t
+ ;; 自动启动 overview
+ org-startup-folded t
+ ;; 自动启动 indent
+ org-startup-indented t
+ )
+
 ;;(add-hook 'org-mode-hook 'prose-mode)
 (provide 'init-local)
 ;;; init-local.el ends here
