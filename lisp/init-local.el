@@ -175,6 +175,28 @@
 (with-eval-after-load 'org
   (add-to-list 'org-export-backends 'md))
 
+;; 配置 html 导出头
+(setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/org.css\"/>")
+
+ ;;; org 导出到 html , 并将 org-roam-node 转换为 org-transclude 块
+(defun xiliuya/org-roam-to-html ()
+  "Export org to html covert org-roam-node to org-transclude."
+  (interactive)
+  (goto-char (point-min))
+  (while (search-forward "[[id:" nil t)
+    (progn (replace-match "\n#+transclude: [[id:")
+           ;;(org-transclusion-add)
+           ))
+  (org-transclusion-add-all)
+  (org-html-export-to-html)
+  (org-transclusion-remove-all)
+  (goto-char (point-min))
+  (sit-for 1)
+  (while (search-forward "\n#+transclude: [[id:" nil t)
+    (replace-match "[[id:"))
+  )
+;;(xiliuya/org-roam-to-html)
+
 ;;; 配置 org 下的 ditaa plantuml
 (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
@@ -203,7 +225,7 @@
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y-%m-%d>.org"
-                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/org.css\"/>\n#+OPTIONS: todo:nil num:3 H:4 ^:nil pri:t\n#+TAGS:  { 糟糕(1) 凑合(2) 不错(3) 很好(4) 极品(5) }\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
+                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+OPTIONS: todo:nil num:3 H:4 ^:nil pri:t\n#+TAGS:  { 糟糕(1) 凑合(2) 不错(3) 很好(4) 极品(5) }\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
                             )
          :unnarrowed t)))
 
