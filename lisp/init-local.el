@@ -23,6 +23,7 @@
 
 (require-package 'org-modern)
 (require-package 'valign)
+(require-package 'org-transclusion)
 
 ;;; 配置 sdcv
 (require 'sdcv)
@@ -417,5 +418,57 @@ Uses mpv.el to control mpv process"
  )
 
 ;;(add-hook 'org-mode-hook 'prose-mode)
+
+;;; 配置编译成功后,隐藏弹窗
+(defun notify-compilation-result(buffer msg)
+  "Notify that the compilation is finished,
+  close the *compilation* buffer if the compilation is successful,
+  and set the focus back to Emacs frame"
+
+  (if (string-match "^finished" msg)
+      (progn
+        ;;(delete-windows-on buffer)
+        ;;(bury-buffer buffer)
+        ;;(kill-buffer buffer)
+        (switch-to-prev-buffer (xiliuya/find-buffer (window-list) "*compilation*") 'bury )
+        (tooltip-show "\n Compilation Successful :-) \n "))
+    (tooltip-show "\n Compilation Failed :-( \n "))
+  )
+;;; 找到活动窗口里,字符串对应的 window
+(defun xiliuya/find-buffer (w-list str)
+  "Find a window-list buffer with full buffer name"
+
+  (if (null w-list)
+      nil
+    (if (string-match (buffer-name (window-buffer (car w-list))) str)
+        (car w-list)
+      ;;(window-buffer (car w-list))
+      (xiliuya/find-buffer (cdr w-list) str)
+      )
+    )
+  ;;(setq w (car w-list))
+  )
+;;(xiliuya/find-buffer (window-list) "*scratch*")
+
+;;; 配置 c-mode 编译命令
+(add-to-list 'compilation-finish-functions
+             'notify-compilation-result)
+(add-hook 'c-mode-hook
+          (lambda ()
+            (unless (file-exists-p "Makefile")
+              (set (make-local-variable 'compile-command)
+                   ;; emulate make's .c.o implicit pattern rule, but with
+                   ;; different defaults for the CC, CPPFLAGS, and CFLAGS
+                   ;; variables:
+                   ;; $(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $<
+                   (let ((file (file-name-nondirectory buffer-file-name)))
+                     (format "%s -o %s %s %s %s"
+                             ;;(format "%s -c -o %s.o %s %s %s"
+                             (or (getenv "CC") "gcc")
+                             (file-name-sans-extension file)
+                             (or (getenv "CPPFLAGS") "-DDEBUG=9")
+                             (or (getenv "CFLAGS") "-ansi -pedantic -Wall -g")
+                             file))))))
+
 (provide 'init-local)
 ;;; init-local.el ends here
