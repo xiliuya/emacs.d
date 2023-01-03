@@ -251,7 +251,7 @@
 ;;; 配置 yasnippet
 ;;; 配置 auto-insert
 ;; 由于出现了很多问题(pyim/yasinppets),暂时屏蔽掉 symbol-overlay
-(remove-hook 'prog-mode-hook 'symbol-overlay-mode)
+;;(remove-hook 'prog-mode-hook 'symbol-overlay-mode)
 (add-hook 'find-file-hook 'auto-insert)
 (add-hook 'find-file-hook #'yas-minor-mode)
 (with-eval-after-load 'yasnippet
@@ -417,6 +417,9 @@ Uses mpv.el to control mpv process"
  org-startup-indented t
  )
 
+;;; 配置 org-mode inline 图片宽度
+(setq org-image-actual-width '(400))
+
 ;;(add-hook 'org-mode-hook 'prose-mode)
 
 ;;; 配置编译成功后,隐藏弹窗
@@ -469,6 +472,14 @@ Uses mpv.el to control mpv process"
                              (or (getenv "CPPFLAGS") "-DDEBUG=9")
                              (or (getenv "CFLAGS") "-ansi -pedantic -Wall -g")
                              file))))))
+
+
+;;; 配置 kind-icon 美化 corfu
+;; Quite beautiful
+(with-eval-after-load 'corfu
+  (setq kind-icon-default-face 'corfu-default)
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+  )
 
 (provide 'init-local)
 ;;; init-local.el ends here
