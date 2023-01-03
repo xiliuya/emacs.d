@@ -383,6 +383,8 @@ Uses mpv.el to control mpv process"
 
 ;;; 配置 org-modern
 (add-hook 'org-mode-hook 'org-modern-mode)
+(setq org-modern-star nil)
+(setq org-modern-table nil)
 
 ;;; 配置 org-mode
 ;; 配置 todo 颜色
@@ -439,7 +441,7 @@ Uses mpv.el to control mpv process"
   )
 ;;; 找到活动窗口里,字符串对应的 window
 (defun xiliuya/find-buffer (w-list str)
-  "Find a window-list buffer with full buffer name"
+  "Find str in (window-list) buffer with full buffer name"
 
   (if (null w-list)
       nil
