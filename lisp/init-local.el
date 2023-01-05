@@ -422,6 +422,31 @@ Uses mpv.el to control mpv process"
 ;;; 配置 org-mode inline 图片宽度
 (setq org-image-actual-width '(400))
 
+;;; 配置 org src_block eglot 补全
+
+;; 自定义函数 实现在 org-src-mode 和 列表内的模式启用 eglot
+(defun xiliuya/org-src-eglot (mode-list)
+  "Set '(buffer-file-name) when in 'org-src-mode (as MODE-LIST)"
+  (interactive)
+  (dolist (mode mode-list)
+    (if (and (eq mode major-mode) org-src-mode)
+        (progn (setq-local buffer-file-name (expand-file-name (assoc-default :tangle (nth 2 org-src--babel-info))))
+               (eglot-ensure))
+      )
+    )
+  )
+;; 设定在 org-edit-src-code 末尾调用
+(defun org-babel-edit-prep:C (babel-info)
+  "After (org-edit-src-code) run when in C src code."
+  (interactive)
+  (xiliuya/org-src-eglot '(c-mode))
+  )
+(defun org-babel-edit-prep:python (babel-info)
+  "After (org-edit-src-code) run when in python src code."
+  (interactive)
+  (xiliuya/org-src-eglot '(python-mode))
+  )
+
 ;;(add-hook 'org-mode-hook 'prose-mode)
 
 ;;; 配置编译成功后,隐藏弹窗
