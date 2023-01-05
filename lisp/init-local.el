@@ -460,7 +460,7 @@ Uses mpv.el to control mpv process"
              'notify-compilation-result)
 (add-hook 'c-mode-hook
           (lambda ()
-            (unless (file-exists-p "Makefile")
+            (unless (or (file-exists-p "Makefile") (not buffer-file-name))
               (set (make-local-variable 'compile-command)
                    ;; emulate make's .c.o implicit pattern rule, but with
                    ;; different defaults for the CC, CPPFLAGS, and CFLAGS
