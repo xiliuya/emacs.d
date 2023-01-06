@@ -500,6 +500,30 @@ Uses mpv.el to control mpv process"
                              (or (getenv "CFLAGS") "-ansi -pedantic -Wall -g")
                              file))))))
 
+;;; 配置 eldoc 自定义高亮文本
+;; 输入关键字列表和字符串,返回 text-property 字符
+(defun xiliuya/hl-mystring (str-key s-string)
+  "Return a text property string."
+  (dolist (keyword str-key)
+    (setq key-pos (string-match keyword s-string))
+    (if key-pos
+        (put-text-property key-pos (+ key-pos (length keyword)) 'face 'font-lock-keyword-face s-string)
+      )
+    )
+  (message s-string)
+  )
+
+;; 配置 advice 在 eldoc-display-in-echo-area 后执行下列函数
+(defun xiliuya/eldoc-display-in-echo-area-after (string1)
+  "Advice after run (eldoc-display-in-echo-area) ."
+  (setq hl-key '("def" "file" "print" "False" "None" "True" "assert" "break" "class" "continue" "elif" "else" "except" "finally" "from" "global" "import" "lambda" "nonlocal" "raise" "return" "while" "yield" "EOF"))
+  ;;(setq hl-key '("def" "file" "print" "False" "None" "True" "and" "as" "assert" "break" "class" "continue" "def" "del" "elif" "else" "except" "finally" "for" "from" "global" "if" "import" "in" "is" "lambda" "nonlocal" "not" "or" "pass" "raise" "return" "try" "while" "with" "yield" "---" "***"))
+  (setq teststr "int a bcd defun a ; this test")
+  (if (stringp string1)
+      (xiliuya/hl-mystring hl-key string1))
+  )
+;; 绑定函数输出为自定义函数的输入
+(advice-add 'eldoc-display-in-echo-area :filter-return #'xiliuya/eldoc-display-in-echo-area-after)
 
 ;;; 配置 kind-icon 美化 corfu
 ;; Quite beautiful
