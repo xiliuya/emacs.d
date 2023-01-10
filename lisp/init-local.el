@@ -25,6 +25,8 @@
 (require-package 'valign)
 (require-package 'org-transclusion)
 
+(require-package 'kind-icon)
+
 ;;; 配置 sdcv
 (require 'sdcv)
 
@@ -500,6 +502,8 @@ Uses mpv.el to control mpv process"
                              (or (getenv "CFLAGS") "-ansi -pedantic -Wall -g")
                              file))))))
 
+;;; 配置 c-mode 自动折叠
+(add-hook 'c-mode-hook 'hs-minor-mode)
 ;;; 配置 eldoc 自定义高亮文本
 ;; 输入关键字列表和字符串,返回 text-property 字符
 (defun xiliuya/hl-mystring (str-key s-string)
