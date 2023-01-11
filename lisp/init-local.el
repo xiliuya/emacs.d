@@ -116,9 +116,9 @@
 ;;; 配置 pyim
 
 ;;; 禁用掉 gtk 的 im
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (pgtk-use-im-context nil)))
+;; (add-hook 'prog-mode-hook
+;;           (lambda ()
+;;             (pgtk-use-im-context nil)))
 
 (require 'pyim)
 (require 'pyim-basedict)
