@@ -463,6 +463,13 @@ Uses mpv.el to control mpv process"
         ;;(bury-buffer buffer)
         ;;(kill-buffer buffer)
         (switch-to-prev-buffer (xiliuya/find-buffer (window-list) "*compilation*") 'bury )
+        (if (and
+             (cdr (window-list))
+             (not (cdr (cdr (window-list))))
+             (eq (window-buffer (nth 0 (window-list)))
+                 (window-buffer (nth 1 (window-list)))))
+            (delete-window (car (window-list)))
+          )
         (tooltip-show "\n Compilation Successful :-) \n "))
     (tooltip-show "\n Compilation Failed :-( \n "))
   )
@@ -504,6 +511,12 @@ Uses mpv.el to control mpv process"
 
 ;;; 配置 c-mode 自动折叠
 (add-hook 'c-mode-hook 'hs-minor-mode)
+
+;;; 配置 c-mode 关闭 flycheck(eglot 自带的 check 足够用了
+;; (add-hook 'c-mode-hook 'flymake-mode-off)
+;; (add-hook 'eglot--managed-mode-hook 'flymake-mode-off)
+;; (add-hook 'eglot--managed-mode-hook 'flycheck-mode)
+
 ;;; 配置 eldoc 自定义高亮文本
 ;; 输入关键字列表和字符串,返回 text-property 字符
 (defun xiliuya/hl-mystring (str-key s-string)
