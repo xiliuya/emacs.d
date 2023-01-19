@@ -28,7 +28,7 @@
 (require-package 'kind-icon)
 
 ;;; 配置 sdcv
-(require 'sdcv)
+;;; (require 'sdcv)
 
 ;;; 修复悬浮窗口问题
 ;;;(setq sdcv-popup-function 'showtip)
@@ -75,7 +75,7 @@
 
 ;;; 配置 evil
 
-(require 'evil)
+;;; (require 'evil)
 (evil-mode)
 ;;; (local-set-key (kbd "jj") 'evil-normal-state)
 (with-eval-after-load 'evil
@@ -120,9 +120,9 @@
 ;;           (lambda ()
 ;;             (pgtk-use-im-context nil)))
 
-(require 'pyim)
-(require 'pyim-basedict)
-(require 'pyim-cregexp-utils)
+;; (require 'pyim)
+;; (require 'pyim-basedict)
+;; (require 'pyim-cregexp-utils)
 
 ;; 如果使用 popup page tooltip, 就需要加载 popup 包。
 ;; (require 'popup nil t)
@@ -222,7 +222,7 @@
               (propertize "${tags:10}" 'face 'org-tag)))
 (org-roam-db-autosync-mode)
 ;; If using org-roam-protocol
-(require 'org-roam-protocol)
+;; (require 'org-roam-protocol)
 
 (setq org-roam-dailies-capture-templates
       '(("d" "default" entry
@@ -249,7 +249,12 @@
   (define-key eglot-mode-map (kbd "C-c e r") #'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c e f") #'eglot-format)
   )
+;;关闭 c 模式 flycheck backend
 
+(with-eval-after-load 'flycheck
+  (setq-default flycheck-disabled-checkers
+                (append (default-value 'flycheck-disabled-checkers)
+                        '(c/c++-clang c/c++-gcc c/c++-cppcheck))))
 ;;; 配置 yasnippet
 ;;; 配置 auto-insert
 ;; 由于出现了很多问题(pyim/yasinppets),暂时屏蔽掉 symbol-overlay
@@ -344,7 +349,7 @@
   )
 
 ;;; org-download 配置
-(require 'org-download)
+;;(require 'org-download)
 ;;;(setq org-download-screenshot-method "flameshot gui --raw >%s")
 (setq org-download-screenshot-method "grim -g \"$(slurp)\" %s")
 ;;;(setq org-download-method 'directory)
