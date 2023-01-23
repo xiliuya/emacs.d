@@ -5,6 +5,7 @@
 (require-package 'sdcv)
 (require-package 'evil)
 (require-package 'evil-escape)
+(require-package 'evil-collection)
 
 (require-package 'pyim)
 (require-package 'pyim-basedict)
@@ -26,6 +27,10 @@
 (require-package 'org-transclusion)
 
 (require-package 'kind-icon)
+
+
+;;; 更新 emacs 后清理编译缓存
+(setq native-compile-prune-cache t)
 
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
@@ -243,7 +248,8 @@
 ;;; 配置 eglot
 ;;;(add-hook 'prog-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
-(add-hook 'c-mode-common-hook 'eglot-ensure)
+(add-hook 'c-mode-hook 'eglot-ensure)
+;;(add-hook 'c-ts-mode-hook 'eglot-ensure)
 (add-hook 'rust-mode-hook 'eglot-ensure)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c e r") #'eglot-rename)
@@ -265,8 +271,6 @@
   ;;;(add-hook 'prog-mode-hook #'yas-minor-mode)
   (yas-global-mode 1)
   )
-(setq user-full-name "xiliuya")
-(setq user-mail-address "xiliuya@163.com")
 ;;; (auto-insert-mode 1)
 (defun my/autoinsert-yas-expand()
   "Replace text in yasnippet template."
@@ -517,6 +521,15 @@ Uses mpv.el to control mpv process"
 ;;; 配置 c-mode 自动折叠
 (add-hook 'c-mode-hook 'hs-minor-mode)
 
+;;; 配置 c-ts-mode
+(add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+(add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
+(add-to-list 'major-mode-remap-alist
+             '(c-or-c++-mode . c-or-c++-ts-mode))
+
+;; 直接将 hook 赋值给新的 hook
+(setq c-ts-mode-hook c-mode-hook)
+
 ;;; 配置 c-mode 关闭 flycheck(eglot 自带的 check 足够用了
 ;; (add-hook 'c-mode-hook 'flymake-mode-off)
 ;; (add-hook 'eglot--managed-mode-hook 'flymake-mode-off)
@@ -553,6 +566,10 @@ Uses mpv.el to control mpv process"
   (setq kind-icon-default-face 'corfu-default)
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
   )
+
+;;; 配置 gnus 其余部分在 ~/.gnus.el
+
+(require 'init-mu4e)
 
 (provide 'init-local)
 ;;; init-local.el ends here
