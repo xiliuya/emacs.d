@@ -1,12 +1,8 @@
 ;;; init-mu4e.el ---  mu4e setting -*- lexical-binding: t -*-
 
-;; Copyright (C) 2014 xiliuya
-
-;; Author: xiliuya <xiliuya@aliyun.com>
-;; Version: 0
+;; Package-Requires: ((emacs "26.3") (evil "1.2.13") (annalist "1.0"))
 
 ;;; Commentary: my email
-
 ;;; Code:
 
 ;; 配置邮箱地址
@@ -62,8 +58,8 @@
    mu4e-get-mail-command "offlineimap" ;; or fetchmail, or ...
    mu4e-update-interval 300)           ;; update every 5 minutes
 
-  ;; 绑定 evil 键位
-  (evil-collection-init 'mu4e)
+  ;; ;; 绑定 evil 键位
+  ;; (evil-collection-init 'mu4e)
 
   )
 
@@ -82,8 +78,19 @@
   (setq message-kill-buffer-on-exit t)
   )
 
+;;; 配置为默认邮件工具
+(setq mail-user-agent 'mu4e-user-agent)
+(set-variable 'read-mail-command 'mu4e)
 
+(require 'authinfo)
 
+;; (authinfo-copy-password "smtp.aliyun.com" "xiliuya@aliyun.com")
+
+(defun offlineimap-get-password (host user)
+  "Return authinfo password."
+  (authinfo-copy-password host user)
+  (car authinfo-copied-passwords)
+  )
 
 (provide 'init-mu4e)
 ;;; init-mu4e.el ends here

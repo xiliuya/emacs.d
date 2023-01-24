@@ -5,7 +5,7 @@
 (require-package 'sdcv)
 (require-package 'evil)
 (require-package 'evil-escape)
-(require-package 'evil-collection)
+;; (require-package 'evil-collection)
 
 (require-package 'pyim)
 (require-package 'pyim-basedict)
@@ -81,10 +81,13 @@
 ;;; 配置 evil
 
 ;;; (require 'evil)
+;; evil-collection 配置
+;; (setq evil-want-keybinding 'nil)
 (evil-mode)
 ;;; (local-set-key (kbd "jj") 'evil-normal-state)
 (with-eval-after-load 'evil
-  (evil-escape-mode))
+  (evil-escape-mode)
+  )
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
 ;;; 配置 org-mode 下正常模式的 tab 切换
