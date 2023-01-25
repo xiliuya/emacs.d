@@ -12,7 +12,7 @@
       user-full-name	"xiliuya")
 
 ;;; 配置 EasyPG
-(setq epa-pinentry-mode 'loopback)
+(setq epg-pinentry-mode 'loopback)
 
 ;;; 配置邮件发送
 (require 'smtpmail)

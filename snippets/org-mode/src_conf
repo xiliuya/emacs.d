@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: src_conf
+# key: con_
+# --
+#+begin_src conf
+$1
+#+end_src
