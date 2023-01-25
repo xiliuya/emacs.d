@@ -2,6 +2,10 @@
 ;;; Commentary: my email
 ;;; Code:
 
+(require-package 'org-msg)
+(require-package 'mu4e-column-faces)
+(require-package 'message-view-patch)
+
 ;; 配置邮箱地址
 (setq user-mail-address	"xiliuya@aliyun.com"
       ;;(setq user-mail-address	"xiliuya@outlook.com"
@@ -10,8 +14,28 @@
 ;;; 配置 EasyPG
 (setq epa-pinentry-mode 'loopback)
 
+;;; 配置邮件发送
+(require 'smtpmail)
+;; 配置 smtp 发送
+(with-eval-after-load 'smtpmail
+  (setq send-mail-function	'smtpmail-send-it
+        message-send-mail-function	'smtpmail-send-it
+        smtpmail-smtp-server		"smtp.aliyun.com"
+        smtpmail-smtp-service		465
+        smtpmail-stream-type 'ssl
+        )
+
+  ;; don't keep message buffers around
+  (setq message-kill-buffer-on-exit t)
+  )
+
 ;;; 配置 mu4e 收发邮件
 (require 'mu4e)
+
+;;; 配置为默认邮件工具
+(setq mail-user-agent 'mu4e-user-agent)
+(set-variable 'read-mail-command 'mu4e)
+
 ;; assumed Maildir layout
 ;; ~/Maildir/Account0/{Inbox,Sent,Trash}
 ;; ~/Maildir/Account1/{Inbox,Sent,Trash}
@@ -57,27 +81,16 @@
 
   ;; ;; 绑定 evil 键位
   ;; (evil-collection-init 'mu4e)
+  ;; 配置邮件地址高亮
+  (mu4e-column-faces-mode)
 
   )
 
-;;; 配置邮件发送
-(require 'smtpmail)
-;; 配置 smtp 发送
-(with-eval-after-load 'smtpmail
-  (setq send-mail-function	'smtpmail-send-it
-        message-send-mail-function	'smtpmail-send-it
-        smtpmail-smtp-server		"smtp.aliyun.com"
-        smtpmail-smtp-service		465
-        smtpmail-stream-type 'ssl
-        )
+;;; 配置 patch 高亮
+;; (require 'message-view-patch)
+;; (add-hook 'mu4e-view-mode-hook #'message-view-patch-highlight)
 
-  ;; don't keep message buffers around
-  (setq message-kill-buffer-on-exit t)
-  )
-
-;;; 配置为默认邮件工具
-(setq mail-user-agent 'mu4e-user-agent)
-(set-variable 'read-mail-command 'mu4e)
+(add-hook 'gnus-part-display-hook 'message-view-patch-highlight)
 
 (require 'authinfo)
 
@@ -111,5 +124,27 @@
          ))
 ;; 配置附件下载目录
 (setq mu4e-attachment-dir "~/Desktop")
+
+;;; org-msg 暂时不做考虑使用
+
+(setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+      org-msg-startup "hidestars indent inlineimages"
+      org-msg-greeting-fmt "\nHi%s,\n\n"
+      org-msg-recipient-names '(("xiliuya@aliyun.com" . "Xiliuya"))
+      org-msg-greeting-name-limit 3
+      org-msg-default-alternatives '((new		. (text html))
+                                     (reply-to-html	. (text html))
+                                     (reply-to-text	. (text)))
+      org-msg-convert-citation t
+      org-msg-signature "
+
+ Regards,
+
+ #+begin_signature
+ --
+ *Xiliuya*
+ /One Emacs to rule them all/
+ #+end_signature")
+
 (provide 'init-mu4e)
 ;;; init-mu4e.el ends here
