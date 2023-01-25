@@ -521,8 +521,9 @@ Uses mpv.el to control mpv process"
                              (or (getenv "CFLAGS") "-ansi -pedantic -Wall -g")
                              file))))))
 
-;;; 配置 c-mode 自动折叠
+;;; 配置 c-mode / elisp-mode 自动折叠
 (add-hook 'c-mode-hook 'hs-minor-mode)
+(add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
 
 ;;; 配置 c-ts-mode
 (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
@@ -570,7 +571,17 @@ Uses mpv.el to control mpv process"
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
   )
 
-;;; 配置 gnus 其余部分在 ~/.gnus.el
+;;; magit gpg tty sign
+;; 目前只能手动使用, 未找到合适 hook 点.
+
+(defun magit-sign-with-tty ()
+  (interactive)
+  (if (processp magit-this-process)
+      (progn (process-send-string
+              magit-this-process
+              (read-passwd
+               "git sign password:"))
+             (process-send-string magit-this-process "\n"))))
 
 (require 'init-mu4e)
 

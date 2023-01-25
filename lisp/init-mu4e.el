@@ -1,7 +1,4 @@
 ;;; init-mu4e.el ---  mu4e setting -*- lexical-binding: t -*-
-
-;; Package-Requires: ((emacs "26.3") (evil "1.2.13") (annalist "1.0"))
-
 ;;; Commentary: my email
 ;;; Code:
 
@@ -92,5 +89,27 @@
   (car authinfo-copied-passwords)
   )
 
+;; 自定义邮件分类 mail-list emacs-devel 7 日内邮件.从邮件 raw 内查询关键字
+(add-to-list 'mu4e-bookmarks
+             ;; add bookmark for recent messages on the Mu mailing list.
+             '( :name "emacs-devel 7 day"
+                :key  ?e
+                ;; :hide-unread t
+                :query "list:emacs-devel.gnu.org AND date:7d..now"))
+
+;; 自定义文件夹 aliyun 邮箱
+(setq mu4e-maildir-shortcuts
+      '( (:maildir "/INBOX"              :key ?i)
+         (:maildir "/草稿"                :key ?c)
+         (:maildir "/垃圾邮件"             :key ?l)
+         (:maildir "/已删除邮件"           :key ?d)
+         (:maildir "/已发送"              :key ?f)
+         (:maildir "/aliyun/Archive"     :key ?a :hide t)
+         (:maildir "/aliyun/Sent"        :key ?s :hide t)
+         (:maildir "/aliyun/Drafts"      :key ?D :hide t)
+         (:maildir "/aliyun/Trash"       :key ?t :hide t)
+         ))
+;; 配置附件下载目录
+(setq mu4e-attachment-dir "~/Desktop")
 (provide 'init-mu4e)
 ;;; init-mu4e.el ends here
