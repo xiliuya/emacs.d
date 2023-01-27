@@ -27,6 +27,10 @@
 (require-package 'org-transclusion)
 
 (require-package 'kind-icon)
+(require-package 'format-all)
+
+(require-package 'format-all)
+(require-package 'protobuf-mode)
 
 
 ;;; 更新 emacs 后清理编译缓存
@@ -173,10 +177,12 @@
                 pyim-probe-program-mode
                 pyim-probe-org-structure-template))
 
-(setq-default pyim-punctuation-half-width-functions
-              '(pyim-probe-punctuation-line-beginning
-                pyim-probe-punctuation-after-punctuation))
+;; (setq-default pyim-punctuation-half-width-functions
+;;               '(pyim-probe-punctuation-line-beginning
+;;                 pyim-probe-punctuation-after-punctuation))
 
+;; 用不到这个功能, 由于会出现代码模式干扰, 暂时关闭掉.
+(setq  pyim-outcome-trigger 'nil)
 ;; 开启代码搜索中文功能（比如拼音，五笔码等）
 (pyim-isearch-mode 1)
 ;;; 配置 全角半角字符 yes|no|auto
@@ -521,18 +527,28 @@ Uses mpv.el to control mpv process"
                              (or (getenv "CFLAGS") "-ansi -pedantic -Wall -g")
                              file))))))
 
-;;; 配置 c-mode / elisp-mode 自动折叠
+;;; 配置 c / python / elisp-mode 自动折叠
 (add-hook 'c-mode-hook 'hs-minor-mode)
+(add-hook 'python-mode-hook 'hs-minor-mode)
 (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
 
-;;; 配置 c-ts-mode
+;;; 配置 format-all
+(with-eval-after-load 'format-all
+  (global-set-key (kbd "C-c f b") 'format-all-buffer)
+  (global-set-key (kbd "C-c f m") 'format-all-mode)
+  )
+
+;;; 配置 treesiter
+;;; 配置 c-ts-mode python-ts-mode
 (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
 (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
 (add-to-list 'major-mode-remap-alist
              '(c-or-c++-mode . c-or-c++-ts-mode))
+(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 ;; 直接将 hook 赋值给新的 hook
 (setq c-ts-mode-hook c-mode-hook)
+(setq python-ts-mode-hook python-mode-hook)
 
 ;;; 配置 c-mode 关闭 flycheck(eglot 自带的 check 足够用了
 ;; (add-hook 'c-mode-hook 'flymake-mode-off)
@@ -614,8 +630,9 @@ Uses mpv.el to control mpv process"
   (global-set-key (kbd "C-c b s") 'bongo-start/stop)
   )
 (global-set-key (kbd "C-c b p") 'bongo-playlist)
+
+
 ;; 配置 mu4e 邮箱
 (require 'init-mu4e)
-
 (provide 'init-local)
 ;;; init-local.el ends here
