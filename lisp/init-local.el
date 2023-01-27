@@ -573,7 +573,7 @@ Uses mpv.el to control mpv process"
 
 ;;; magit gpg tty sign
 ;; 目前只能手动使用, 未找到合适 hook 点.
-
+;; 已找到替代方案 目前不需要 hook
 (defun magit-sign-with-tty ()
   (interactive)
   (if (processp magit-this-process)
@@ -583,6 +583,38 @@ Uses mpv.el to control mpv process"
                "git sign password:"))
              (process-send-string magit-this-process "\n"))))
 
+;;; 配置 magit
+(with-eval-after-load 'magit
+  ;; 加入正则匹配中文 "输入密码"
+  (add-to-list 'magit-process-password-prompt-regexps "\u8F93\u5165\u5BC6\u7801")
+  )
+
+;;; 配置 bongo
+(with-eval-after-load 'bongo
+  (setq
+   bongo-default-directory "~/Music"
+   bongo-prefer-library-buffers nil
+   bongo-insert-whole-directory-trees t
+   bongo-logo nil
+   bongo-display-track-icons nil
+   bongo-display-track-lengths nil
+   bongo-display-header-icons nil
+   bongo-display-playback-mode-indicator t
+   bongo-display-inline-playback-progress t
+   bongo-join-inserted-tracks nil
+   bongo-field-separator (propertize " · " 'face 'shadow)
+   bongo-mark-played-tracks t
+   bongo-header-line-mode nil
+   bongo-mode-line-indicator-mode nil
+   bongo-enabled-backends '(vlc mpv)
+   bongo-vlc-program-name "cvlc")
+  (add-hook 'bongo-playlist-mode-hook 'turn-off-evil-mode)
+  (add-hook 'bongo-playlist-mode-hook 'bongo-random-playback-mode)
+  (global-set-key (kbd "C-c b r") 'bongo-play-random)
+  (global-set-key (kbd "C-c b s") 'bongo-start/stop)
+  )
+(global-set-key (kbd "C-c b p") 'bongo-playlist)
+;; 配置 mu4e 邮箱
 (require 'init-mu4e)
 
 (provide 'init-local)
