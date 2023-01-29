@@ -29,9 +29,11 @@
 (require-package 'kind-icon)
 (require-package 'format-all)
 
-(require-package 'format-all)
+(require-package 'yapfify)
+
 (require-package 'protobuf-mode)
 
+(require-package 'cape)
 
 ;;; 更新 emacs 后清理编译缓存
 (setq native-compile-prune-cache t)
@@ -263,6 +265,7 @@
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c e r") #'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c e f") #'eglot-format)
+  (define-key eglot-mode-map (kbd "C-c e p") #'yapfify-buffer)
   )
 ;;关闭 c 模式 flycheck backend
 
@@ -550,6 +553,15 @@ Uses mpv.el to control mpv process"
 (setq c-ts-mode-hook c-mode-hook)
 (setq python-ts-mode-hook python-mode-hook)
 
+;;配置 language-id 配合 format-all
+(with-eval-after-load 'language-id
+  (dolist (language--id '(("C" c-mode c-ts-mode)
+                          ("C++" c++-mode c++-ts-mode)
+                          ("Python" python-mode python-ts-mode)))
+    ;; (message "%s" language--id)
+    (add-to-list 'language-id--definitions language--id)
+    ))
+
 ;;; 配置 c-mode 关闭 flycheck(eglot 自带的 check 足够用了
 ;; (add-hook 'c-mode-hook 'flymake-mode-off)
 ;; (add-hook 'eglot--managed-mode-hook 'flymake-mode-off)
@@ -585,6 +597,42 @@ Uses mpv.el to control mpv process"
 (with-eval-after-load 'corfu
   (setq kind-icon-default-face 'corfu-default)
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+  )
+
+;;; 配置 cape 补全
+;; (with-eval-after-load 'cape
+
+;;   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+;;   (add-to-list 'completion-at-point-functions #'cape-file)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-history)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
+;;   ;;(add-to-list 'completion-at-point-functions #'cape-line)
+;;   )
+
+(dolist (key-tmp '(("C-c f p" . completion-at-point) ;; capf
+                   ("C-c f t" . complete-tag)        ;; etags
+                   ("C-c f d" . cape-dabbrev) ;; or dabbrev-completion
+                   ("C-c f h" . cape-history)
+                   ("C-c f f" . cape-file)
+                   ("C-c f k" . cape-keyword)
+                   ("C-c f s" . cape-symbol)
+                   ("C-c f a" . cape-abbrev)
+                   ("C-c f i" . cape-ispell)
+                   ("C-c f l" . cape-line)
+                   ("C-c f w" . cape-dict)
+                   ("C-c f \\" . cape-tex)
+                   ("C-c f _" . cape-tex)
+                   ("C-c f ^" . cape-tex)
+                   ("C-c f &" . cape-sgml)
+                   ("C-c f r" . cape-rfc1345)))
+  (global-set-key (kbd (car key-tmp)) (cdr key-tmp))
   )
 
 ;;; magit gpg tty sign
@@ -631,7 +679,11 @@ Uses mpv.el to control mpv process"
   )
 (global-set-key (kbd "C-c b p") 'bongo-playlist)
 
-
+(when (file-exists-p "/home/xiliuya/test/python/openai/trans_rpc/trans_rpc_client.py")
+  (require 'trans-rpc)
+  (global-set-key (kbd "C-<f8>") 'trans-rpc-form-point-en)
+  (global-set-key (kbd "C-<f9>") 'trans-rpc-form-point-zh)
+  )
 ;; 配置 mu4e 邮箱
 (require 'init-mu4e)
 (provide 'init-local)
