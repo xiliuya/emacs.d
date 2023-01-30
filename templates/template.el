@@ -1,9 +1,17 @@
-;;; `(file-name-nondirectory (buffer-file-name))` --- summary
+;;; `(file-name-nondirectory (buffer-file-name))` --- Summary -*- lexical-binding: t -*-
 
-;; Copyright (C) 2014 `user-full-name`
+;; Copyright (C) 2023 `user-full-name`
 
 ;; Author: `user-full-name` <`user-mail-address`>
-;; Version: 0
+;; URL: https://github.com/xiliuya/
+;; Maintainer:  `user-full-name` <`user-mail-address`>
+;; Created: `(format-time-string "%F %T")`
+
+;; Keywords: extensions
+;; Version: 0.0.0
+;; Package-Requires: ((emacs "24.4"))
+
+;; This file is part of GNU Emacs.
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
