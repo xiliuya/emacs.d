@@ -35,6 +35,8 @@
 
 (require-package 'cape)
 
+(require-package 'nov)
+
 ;;; 更新 emacs 后清理编译缓存
 (setq native-compile-prune-cache t)
 
@@ -684,6 +686,14 @@ Uses mpv.el to control mpv process"
   (global-set-key (kbd "C-<f8>") 'trans-rpc-form-point-en)
   (global-set-key (kbd "C-<f9>") 'trans-rpc-form-point-zh)
   )
+
+;;; 配置 epub nov-mode
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(with-eval-after-load 'nov
+  (setq nov-unzip-program (executable-find "bsdtar")
+        nov-unzip-args '("-xC" directory "-f" filename))
+  )
+
 ;; 配置 mu4e 邮箱
 (require 'init-mu4e)
 (provide 'init-local)
