@@ -240,7 +240,7 @@
               (propertize "${tags:10}" 'face 'org-tag)))
 (org-roam-db-autosync-mode)
 ;; If using org-roam-protocol
-;; (require 'org-roam-protocol)
+(require 'org-roam-protocol)
 
 (setq org-roam-dailies-capture-templates
       '(("d" "default" entry
@@ -328,6 +328,19 @@
                         . ["template.tex"
                            my/autoinsert-yas-expand]))))
 
+;;; 配置 header2
+;; 绑定快捷键
+(require 'header2)
+(dolist (key-tmp '(("C-c h m" . make-header)
+                   ("C-c h v" . make-revision)
+                   ("C-c h u" . update-file-header)
+                   ("C-c h l" . update-last-modifier)
+                   ("C-c h d" . make-divider)
+                   ("C-c h b" . make-box-comment)
+                   ))
+  (global-set-key (kbd (car key-tmp)) (cdr key-tmp))
+  )
+
 ;;; 配置 erc
 (require 'erc-backend)
 (require 'erc-sasl)
@@ -367,7 +380,7 @@
   )
 
 ;;; org-download 配置
-;;(require 'org-download)
+(require 'org-download)
 ;;;(setq org-download-screenshot-method "flameshot gui --raw >%s")
 (setq org-download-screenshot-method "grim -g \"$(slurp)\" %s")
 ;;;(setq org-download-method 'directory)
@@ -672,8 +685,9 @@ Uses mpv.el to control mpv process"
    bongo-mark-played-tracks t
    bongo-header-line-mode nil
    bongo-mode-line-indicator-mode nil
-   bongo-enabled-backends '(vlc mpv)
-   bongo-vlc-program-name "cvlc")
+   bongo-enabled-backends '(timidity mpv)
+   ;;bongo-vlc-program-name "cvlc"
+   )
   (add-hook 'bongo-playlist-mode-hook 'turn-off-evil-mode)
   (add-hook 'bongo-playlist-mode-hook 'bongo-random-playback-mode)
   (global-set-key (kbd "C-c b r") 'bongo-play-random)
@@ -694,6 +708,8 @@ Uses mpv.el to control mpv process"
         nov-unzip-args '("-xC" directory "-f" filename))
   )
 
+;;; 配置为英语 time string
+(setq system-time-locale "C")
 ;; 配置 mu4e 邮箱
 (require 'init-mu4e)
 (provide 'init-local)
