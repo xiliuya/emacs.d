@@ -222,6 +222,11 @@
 (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
 
+
+;;; 配置 org-agenda
+;; 配置目录
+(setq org-agenda-files '("~/myday/daily/"))
+
 ;;; 配置 org-roam
 
 (global-set-key (kbd "C-c n l")  'org-roam-buffer-toggle)

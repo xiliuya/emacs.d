@@ -77,17 +77,17 @@ The passwords to be removed are temporarily stored in
 (defun authinfo-prompt ()
   "Prompt for host and username."
   (let* ((hosts (delete-duplicates
-		 (loop for spec in
-		       (auth-source-search :max most-positive-fixnum)
-		       collect (plist-get spec :host))
+		 (cl-loop for spec in
+		          (auth-source-search :max most-positive-fixnum)
+		          collect (plist-get spec :host))
 		 :test 'string=))
 	 (host (completing-read "Host: " hosts nil t nil
 				'authinfo-host-history))
 	 (users (delete-duplicates
-		 (loop for spec in
-		       (auth-source-search :host host
-					   :max most-positive-fixnum)
-		       collect (plist-get spec :user))
+		 (cl-loop for spec in
+		          (auth-source-search :host host
+					      :max most-positive-fixnum)
+		          collect (plist-get spec :user))
 		 :test 'string=))
 	 (user (if (> (length users) 1)
 		   (completing-read (format "User for %s: " host)
