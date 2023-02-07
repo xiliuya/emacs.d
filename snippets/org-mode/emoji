@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: emoji
+# key: :e
+# --
+${1:`(emoji-search)`} $2
