@@ -95,6 +95,8 @@
 ;;; (local-set-key (kbd "jj") 'evil-normal-state)
 (with-eval-after-load 'evil
   (evil-escape-mode)
+  ;; 配置 g* 查找 symbol
+  (setq  evil-symbol-word-search  20)
   )
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
