@@ -377,6 +377,7 @@ typical word processor."
       (octave . t)
       (plantuml . t)
       (python . t)
+      (ipython . t)
       (ruby . t)
       (screen . nil)
       (sh . t) ;; obsolete

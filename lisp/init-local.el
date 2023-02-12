@@ -31,6 +31,7 @@
 
 (require-package 'yapfify)
 (require-package 'ob-ipython)
+(require-package 'elquery)
 
 (require-package 'protobuf-mode)
 
@@ -494,7 +495,8 @@ Uses mpv.el to control mpv process"
   )
 
 ;;; 配置 ob-ipython
-(require 'ob-ipython)
+;;(require 'ob-ipython)
+;;换为修改 init-org.el
 
 ;; 配置代码块补全为 python-mode
 (defun org-babel-edit-prep:ipython (babel-info)
@@ -504,40 +506,43 @@ Uses mpv.el to control mpv process"
   )
 ;; hack ob-ipython
 ;; 加入 example python 头防止 [[]] 变成链接
-(defun ob-ipython--render (file-or-nil values)
-  (let ((org (lambda (value) value))
-        (png (lambda (value)
-               (let ((file (or file-or-nil (ob-ipython--generate-file-name ".png"))))
-                 (ob-ipython--write-base64-string file value)
-                 (format "[[file:%s]]" file))))
-        (svg (lambda (value)
-               (let ((file (or file-or-nil (ob-ipython--generate-file-name ".svg"))))
-                 (ob-ipython--write-string-to-file file value)
-                 (format "[[file:%s]]" file))))
-        (html (lambda (value)
-                ;; ((eq (car value) 'text/html)
-                ;;  (let ((pandoc (executable-find "pandoc")))
-                ;;    (and pandoc (with-temp-buffer
-                ;;                  (insert value)
-                ;;                  (shell-command-on-region
-                ;;                   (point-min) (point-max)
-                ;;                   (format "%s -f html -t org" pandoc) t t)
-                ;;                  (s-trim (buffer-string))))))
-                ))
-        (txt (lambda (value)
-               (let ((lines (s-lines value)))
-                 (if (cdr lines)
-                     (->> lines
-                          (-map 's-trim)
-                          (s-join "\n  ")
-                          (s-concat "  ")
-                          (format "#+BEGIN_EXAMPLE python\n%s\n#+END_EXAMPLE"))
-                   (s-concat ": " (car lines)))))))
-    (or (-when-let (val (cdr (assoc 'text/org values))) (funcall org val))
-        (-when-let (val (cdr (assoc 'image/png values))) (funcall png val))
-        (-when-let (val (cdr (assoc 'image/svg+xml values))) (funcall svg val))
-        (-when-let (val (cdr (assoc 'text/plain values))) (funcall txt val)))))
-;;(add-hook 'org-mode-hook 'prose-mode)
+;; 加入 html 音频保存为 wav
+(with-eval-after-load 'ob-ipython
+  (require 'elquery)
+  (defun ob-ipython--render (file-or-nil values)
+    ;;(setq testa (message "%S" values))
+    (let ((org (lambda (value) value))
+          (png (lambda (value)
+                 (let ((file (or file-or-nil (ob-ipython--generate-file-name ".png"))))
+                   (ob-ipython--write-base64-string file value)
+                   (format "[[file:%s]]" file))))
+          (svg (lambda (value)
+                 (let ((file (or file-or-nil (ob-ipython--generate-file-name ".svg"))))
+                   (ob-ipython--write-string-to-file file value)
+                   (format "[[file:%s]]" file))))
+          (html (lambda (value)
+                  (let ((file (or file-or-nil (ob-ipython--generate-file-name ".wav"))))
+                    (ob-ipython--write-base64-string file (substring (plist-get (plist-get (car (elquery-$ "source" (elquery-read-string value))) :props) :src) 22))
+                    (format "[[file:%s]]" file))
+                  ))
+          (txt (lambda (value)
+                 (let ((lines (s-lines value)))
+                   (if (cdr lines)
+                       (->> lines
+                            (-map 's-trim)
+                            (s-join "\n  ")
+                            (s-concat "  ")
+                            (format "#+BEGIN_EXAMPLE python\n%s\n#+END_EXAMPLE"))
+                     (s-concat ": " (car lines)))))))
+      (or (-when-let (val (cdr (assoc 'text/org values))) (funcall org val))
+          (-when-let (val (cdr (assoc 'image/png values))) (funcall png val))
+          (-when-let (val (cdr (assoc 'image/svg+xml values))) (funcall svg val))
+          (-when-let (val (cdr (assoc 'text/html values))) (funcall html val))
+          (-when-let (val (cdr (assoc 'text/plain values))) (funcall txt val))
+
+          )))
+
+  ) ;;(add-hook 'org-mode-hook 'prose-mode)
 
 ;;; 配置编译成功后,隐藏弹窗
 (defun notify-compilation-result(buffer msg)
