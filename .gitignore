@@ -55,3 +55,8 @@ site-lisp/package/
 /smex-items
 /eln-cache/
 /projects
+/ultisession/
+nov-places
+org-roam.db
+/pyim/
+/multisession/
