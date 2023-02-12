@@ -58,3 +58,8 @@ site-lisp/package/
 /projects
 /forge-*.sqlite
 /projectile.cache
+/ultisession/
+nov-places
+org-roam.db
+/pyim/
+/multisession/

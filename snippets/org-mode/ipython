@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ipython
+# key: ipy_
+# --
+#+begin_src ipython :session ${1:mysession} :ipyfile images/plt_${2:tmp}.png  :exports both :results raw drawer
+$0
+#+end_src
