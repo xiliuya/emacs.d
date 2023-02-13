@@ -769,5 +769,8 @@ Uses mpv.el to control mpv process"
 (setq system-time-locale "C")
 ;; 配置 mu4e 邮箱
 (require 'init-mu4e)
+;; 配置 backup
+(require 'init-backup)
+
 (provide 'init-local)
 ;;; init-local.el ends here
