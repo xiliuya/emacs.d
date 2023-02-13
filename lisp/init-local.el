@@ -775,5 +775,7 @@ Uses mpv.el to control mpv process"
 ;;; 配置自动保存
 (auto-save-visited-mode 1)
 
+;; 配置 org-crypt
+(require 'init-org-crypt)
 (provide 'init-local)
 ;;; init-local.el ends here
