@@ -772,5 +772,8 @@ Uses mpv.el to control mpv process"
 ;; 配置 backup
 (require 'init-backup)
 
+;;; 配置自动保存
+(auto-save-visited-mode 1)
+
 (provide 'init-local)
 ;;; init-local.el ends here
