@@ -811,5 +811,8 @@ Uses mpv.el to control mpv process"
 
 ;; 配置 org-crypt
 (require 'init-org-crypt)
+;; 配置 evil
+(require 'init-evil)
+
 (provide 'init-local)
 ;;; init-local.el ends here
