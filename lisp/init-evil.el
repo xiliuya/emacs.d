@@ -52,5 +52,9 @@
    ((eq type 'block)
     (evil-apply-on-block #'xiliuya/evil-replace-number-addone beg end 't beg end))))
 
+;; 键绑定到 evil visual 模式
+(evil-define-key 'visual 'global  (kbd "g C-a") 'xiliuya/evil-replace-region)
+(evil-define-key 'visual 'global  (kbd "g C-b") 'xiliuya/evil-replace-region-one)
+
 (provide 'init-evil)
 ;;; init-evil.el ends here
