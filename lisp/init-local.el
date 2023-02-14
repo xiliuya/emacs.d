@@ -255,9 +255,43 @@
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y-%m-%d>.org"
-                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+OPTIONS: todo:nil num:3 H:4 ^:nil pri:t\n#+TAGS:  { 糟糕(1) 凑合(2) 不错(3) 很好(4) 极品(5) }\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
+                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+OPTIONS: todo:nil num:3 H:4 ^:nil pri:t\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
                             )
          :unnarrowed t)))
+(setq org-roam-capture-templates
+      '(("d" "default" plain "%?"
+         :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title} \n${body}"
+                            )
+         :unnarrowed t))
+      )
+
+(defun zp/org-protocol-insert-selection-dwim (selection)
+  "Insert SELECTION as an org blockquote."
+  (unless (string= selection "")
+    (format "#+begin_quote\n%s\n#+end_quote" selection)))
+
+(setq org-roam-capture-ref-templates
+
+      '(("r" "ref" plain "* %U\n
+%(zp/org-protocol-insert-selection-dwim \"%i\")%?"
+         :target (file+head "web/${slug}.org"
+                            "#+title: ${title}\n
+#+roam_key: ${ref}\n
+#+created: %u\n"
+                            )
+         :unnarrowed t))
+      ;;       '(("r" "ref" plain "%?"
+
+      ;;          :file-name "web/${slug}"
+      ;;          :head "#+title: ${title}
+      ;; #+roam_key: ${ref}
+      ;; #+created: %u
+      ;; #+last_modified: %U
+
+      ;; %(zp/org-protocol-insert-selection-dwim \"%i\")"
+      ;;          :unnarrowed t)
+      ;;         )
+      )
 
 (setq find-file-visit-truename t)
 
