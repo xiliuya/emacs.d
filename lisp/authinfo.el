@@ -54,7 +54,7 @@ The passwords to be removed are temporarily stored in
 	  (setq secret (funcall secret)))
 	(push secret authinfo-copied-passwords)
 	(kill-new secret)
-	(run-with-idle-timer 10 nil 'authinfo-clean-kill-ring)
+	(run-with-idle-timer 1 nil 'authinfo-clean-kill-ring)
 	(message "Copied password")))))
 
 (defun authinfo-clean-kill-ring ()

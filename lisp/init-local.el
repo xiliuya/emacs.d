@@ -258,12 +258,6 @@
                             "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+OPTIONS: todo:nil num:3 H:4 ^:nil pri:t\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
                             )
          :unnarrowed t)))
-(setq org-roam-capture-templates
-      '(("d" "default" plain "%?"
-         :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title} \n${body}"
-                            )
-         :unnarrowed t))
-      )
 
 (defun zp/org-protocol-insert-selection-dwim (selection)
   "Insert SELECTION as an org blockquote."
@@ -280,17 +274,6 @@
 #+created: %u\n"
                             )
          :unnarrowed t))
-      ;;       '(("r" "ref" plain "%?"
-
-      ;;          :file-name "web/${slug}"
-      ;;          :head "#+title: ${title}
-      ;; #+roam_key: ${ref}
-      ;; #+created: %u
-      ;; #+last_modified: %U
-
-      ;; %(zp/org-protocol-insert-selection-dwim \"%i\")"
-      ;;          :unnarrowed t)
-      ;;         )
       )
 
 (setq find-file-visit-truename t)
