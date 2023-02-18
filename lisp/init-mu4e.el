@@ -84,6 +84,38 @@
   ;; 配置邮件地址高亮
   (mu4e-column-faces-mode)
 
+  ;; 自定义邮件分类 mail-list emacs-devel 7 日内邮件.从邮件 raw 内查询关键字
+  (add-to-list 'mu4e-bookmarks
+               ;; add bookmark for recent messages on the Mu mailing list.
+               '( :name "emacs-devel 7 day"
+                  :key  ?e
+                  ;; :hide-unread t
+                  :query "list:emacs-devel.gnu.org AND date:7d..now"))
+
+
+  ;; 自定义邮件分类 非 emacs-devel 7 日内邮件.从邮件 raw 内查询关键字
+  (add-to-list 'mu4e-bookmarks
+               ;; add bookmark for recent messages on the Mu mailing list.
+               '( :name "other 7 day"
+                  :key  ?o
+                  ;; :hide-unread t
+                  :query "NOT list:emacs-devel.gnu.org AND date:7d..now"))
+
+  ;; 自定义文件夹 aliyun 邮箱
+  (setq mu4e-maildir-shortcuts
+        '( (:maildir "/INBOX"              :key ?i)
+           (:maildir "/草稿"                :key ?c)
+           (:maildir "/垃圾邮件"             :key ?l)
+           (:maildir "/已删除邮件"           :key ?d)
+           (:maildir "/已发送"              :key ?f)
+           (:maildir "/aliyun/Archive"     :key ?a :hide t)
+           (:maildir "/aliyun/Sent"        :key ?s :hide t)
+           (:maildir "/aliyun/Drafts"      :key ?D :hide t)
+           (:maildir "/aliyun/Trash"       :key ?t :hide t)
+           ))
+  ;; 配置附件下载目录
+  (setq mu4e-attachment-dir "~/Desktop")
+
   )
 
 ;;; 配置 patch 高亮
@@ -102,41 +134,18 @@
   (car authinfo-copied-passwords)
   )
 
-;; 自定义邮件分类 mail-list emacs-devel 7 日内邮件.从邮件 raw 内查询关键字
-(add-to-list 'mu4e-bookmarks
-             ;; add bookmark for recent messages on the Mu mailing list.
-             '( :name "emacs-devel 7 day"
-                :key  ?e
-                ;; :hide-unread t
-                :query "list:emacs-devel.gnu.org AND date:7d..now"))
-
-;; 自定义文件夹 aliyun 邮箱
-(setq mu4e-maildir-shortcuts
-      '( (:maildir "/INBOX"              :key ?i)
-         (:maildir "/草稿"                :key ?c)
-         (:maildir "/垃圾邮件"             :key ?l)
-         (:maildir "/已删除邮件"           :key ?d)
-         (:maildir "/已发送"              :key ?f)
-         (:maildir "/aliyun/Archive"     :key ?a :hide t)
-         (:maildir "/aliyun/Sent"        :key ?s :hide t)
-         (:maildir "/aliyun/Drafts"      :key ?D :hide t)
-         (:maildir "/aliyun/Trash"       :key ?t :hide t)
-         ))
-;; 配置附件下载目录
-(setq mu4e-attachment-dir "~/Desktop")
-
 ;;; org-msg 暂时不做考虑使用
-
-(setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-      org-msg-startup "hidestars indent inlineimages"
-      org-msg-greeting-fmt "\nHi%s,\n\n"
-      org-msg-recipient-names '(("xiliuya@aliyun.com" . "Xiliuya"))
-      org-msg-greeting-name-limit 3
-      org-msg-default-alternatives '((new		. (text html))
-                                     (reply-to-html	. (text html))
-                                     (reply-to-text	. (text)))
-      org-msg-convert-citation t
-      org-msg-signature "
+(with-eval-after-load 'org-msg
+  (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+        org-msg-startup "hidestars indent inlineimages"
+        org-msg-greeting-fmt "\nHi%s,\n\n"
+        org-msg-recipient-names '(("xiliuya@aliyun.com" . "Xiliuya"))
+        org-msg-greeting-name-limit 3
+        org-msg-default-alternatives '((new		. (text html))
+                                       (reply-to-html	. (text html))
+                                       (reply-to-text	. (text)))
+        org-msg-convert-citation t
+        org-msg-signature "
 
  Regards,
 
@@ -145,6 +154,6 @@
  *Xiliuya*
  /One Emacs to rule them all/
  #+end_signature")
-
+  )
 (provide 'init-mu4e)
 ;;; init-mu4e.el ends here
