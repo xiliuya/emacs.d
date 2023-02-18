@@ -255,14 +255,16 @@
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y-%m-%d>.org"
-                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+OPTIONS: todo:nil num:3 H:4 ^:nil pri:t\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
+                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+OPTIONS: todo:nil num:3 H:4 ^:{} pri:t\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
                             )
          :unnarrowed t)))
 
 (defun zp/org-protocol-insert-selection-dwim (selection)
   "Insert SELECTION as an org blockquote."
   (unless (string= selection "")
-    (format "#+begin_quote\n%s\n#+end_quote" selection)))
+    ;;(format "#+begin_quote\n%s\n#+end_quote" selection)
+    (format "\n%s\n" selection)
+    ))
 
 (setq org-roam-capture-ref-templates
 
@@ -450,6 +452,10 @@ Uses mpv.el to control mpv process"
 (setq org-modern-star nil)
 (setq org-modern-table nil)
 
+;; 配置 org 显示上下标
+(setq org-use-sub-superscripts '{})
+(setq org-pretty-entities 't
+      org-pretty-entities-include-sub-superscripts 't)
 ;;; 配置 org-mode
 ;; 配置 todo 颜色
 (setq org-todo-keyword-faces '(("TODO" . "red")
