@@ -9,7 +9,7 @@
 ;;; Code:
 
 (setq package-enable-at-startup nil)
-(setq inhibit-automatic-native-compilation t)
+(setq no-native-compile t)
 ;; So we can detect this having been loaded
 (provide 'early-init)
 
