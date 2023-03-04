@@ -99,6 +99,9 @@
   (evil-escape-mode)
   ;; 配置 g* 查找 symbol
   (setq  evil-symbol-word-search  20)
+
+  ;; 某些模式不使用 evil
+  (evil-set-initial-state 'haskell-error-mode 'emacs)
   )
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
@@ -317,7 +320,7 @@
 (with-eval-after-load 'flycheck
   (setq-default flycheck-disabled-checkers
                 (append (default-value 'flycheck-disabled-checkers)
-                        '(c/c++-clang c/c++-gcc c/c++-cppcheck))))
+                        '(c/c++-clang c/c++-gcc c/c++-cppcheck haskell-ghc))))
 ;;; 配置 yasnippet
 ;;; 配置 auto-insert
 ;; 由于出现了很多问题(pyim/yasinppets),暂时屏蔽掉 symbol-overlay
