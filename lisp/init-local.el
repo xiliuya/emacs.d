@@ -255,7 +255,7 @@
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y-%m-%d>.org"
-                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@163.com\n#+LANGUAGE: zh-CN\n#+OPTIONS: todo:nil num:3 H:4 ^:{} pri:t\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
+                            "#+TITLE: %<%Y-%m-%d>\n#+AUTHOR: [[https://xiliuya.github.io/][xiliuya]]\n#+EMAIL: xiliuya@aliyun.com\n#+LANGUAGE: zh-CN\n#+OPTIONS: todo:nil num:3 H:4 ^:{} pri:t\n#+COLUMNS: %10ITEM %10PRIORITY %15TODO %65TAGS"
                             )
          :unnarrowed t)))
 
@@ -287,15 +287,30 @@
 
 
 ;;; 配置 eglot
-;;;(add-hook 'prog-mode-hook 'eglot-ensure)
-(add-hook 'python-mode-hook 'eglot-ensure)
-(add-hook 'c-mode-hook 'eglot-ensure)
-;;(add-hook 'c-ts-mode-hook 'eglot-ensure)
-(add-hook 'rust-mode-hook 'eglot-ensure)
+;; mode-hook
+(dolist (hook-mode '(python-mode-hook
+                     c-mode-hook
+                     rust-mode-hook
+                     haskell-mode-hook
+                     ))
+  (add-hook hook-mode 'eglot-ensure)
+  )
+
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c e r") #'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c e f") #'eglot-format)
   (define-key eglot-mode-map (kbd "C-c e p") #'yapfify-buffer)
+  ;; 配置 lsp server
+  (setq-default eglot-workspace-configuration
+                '((haskell
+                   (plugin
+                    (stan
+                     (globalOn . :json-false))))))  ;; disable stan
+
+  (setq
+   ;; 自动关闭
+   eglot-autoshutdown t)
+
   )
 ;;关闭 c 模式 flycheck backend
 
@@ -648,14 +663,6 @@ Uses mpv.el to control mpv process"
 (setq c-ts-mode-hook c-mode-hook)
 (setq python-ts-mode-hook python-mode-hook)
 
-;;配置 language-id 配合 format-all
-(with-eval-after-load 'language-id
-  (dolist (language--id '(("C" c-mode c-ts-mode)
-                          ("C++" c++-mode c++-ts-mode)
-                          ("Python" python-mode python-ts-mode)))
-    ;; (message "%s" language--id)
-    (add-to-list 'language-id--definitions language--id)
-    ))
 
 ;;; 配置 c-mode 关闭 flycheck(eglot 自带的 check 足够用了
 ;; (add-hook 'c-mode-hook 'flymake-mode-off)
