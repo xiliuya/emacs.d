@@ -39,8 +39,6 @@
 
 (require-package 'nov)
 
-;;; 更新 emacs 后清理编译缓存
-(setq native-compile-prune-cache t)
 
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
