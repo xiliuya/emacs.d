@@ -39,6 +39,7 @@
 
 (require-package 'nov)
 
+(require-package 'code-cells)
 
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
@@ -198,34 +199,6 @@
 (setq-default pyim-punctuation-translate-p '(no))
 
 ;;; hack async 解决出现多个 *emacs*:err buffer
-(defun async-start-process (name program finish-func &rest program-args)
-  "Start the executable PROGRAM asynchronously named NAME.  See `async-start'.
-PROGRAM is passed PROGRAM-ARGS, calling FINISH-FUNC with the
-process object when done.  If FINISH-FUNC is nil, the future
-object will return the process object when the program is
-finished.  Set DEFAULT-DIRECTORY to change PROGRAM's current
-working directory."
-  (let* ((buf (generate-new-buffer (concat "*" name "*")))
-         (buf-err (when async-debug
-                    (generate-new-buffer (concat "*" name "*:err"))))
-         (proc (let ((process-connection-type nil))
-                 (make-process
-                  :name name
-                  :buffer buf
-                  :stderr buf-err
-                  :command (cons program program-args)))))
-    (with-current-buffer buf
-      (set (make-local-variable 'async-callback) finish-func)
-
-      (set (make-local-variable 'async-read-marker)
-           (set-marker (make-marker) (point-min) buf))
-      (set-marker-insertion-type async-read-marker nil)
-
-      (set-process-sentinel proc #'async-when-done)
-      (set-process-filter proc #'async-read-from-client)
-      (unless (string= name "emacs")
-        (set (make-local-variable 'async-callback-for-process) t))
-      proc)))
 
 ;;; 配置 org 导出添加markdown 格式
 (with-eval-after-load 'org
@@ -601,8 +574,8 @@ Uses mpv.el to control mpv process"
                             (-map 's-trim)
                             (s-join "\n  ")
                             (s-concat "  ")
-                            (format "#+BEGIN_EXAMPLE python\n%s\n#+END_EXAMPLE"))
-                     (s-concat ": " (car lines)))))))
+                            (format "%s"))
+                     (s-concat " " (car lines)))))))
       (or (-when-let (val (cdr (assoc 'text/org values))) (funcall org val))
           (-when-let (val (cdr (assoc 'image/png values))) (funcall png val))
           (-when-let (val (cdr (assoc 'image/svg+xml values))) (funcall svg val))
@@ -612,6 +585,13 @@ Uses mpv.el to control mpv process"
           )))
 
   ) ;;(add-hook 'org-mode-hook 'prose-mode)
+;;; 配置 ipython 使用 code-cell
+
+;; 配置使用 pandoc
+(setq code-cells-convert-ipynb-style
+      '(("pandoc" "--to" "ipynb" "--from" "org")
+        ("pandoc" "--to" "org" "--from" "ipynb")
+        org-mode))
 
 ;;; 配置编译成功后,隐藏弹窗
 (defun notify-compilation-result(buffer msg)
