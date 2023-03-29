@@ -22,6 +22,7 @@
 
 ;;删除一周以上的备份文件
 (defun backup-delete-oldfile ()
+  (interactive)
   (message "Deleting old backup files...")
   (let ((week (* 60 60 24 7))
         (current (float-time (current-time))))
