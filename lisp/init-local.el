@@ -41,6 +41,8 @@
 
 (require-package 'code-cells)
 
+(require-package 'live-py-mode)
+
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
 
