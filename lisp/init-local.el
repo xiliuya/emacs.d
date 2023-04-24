@@ -813,20 +813,6 @@ Uses mpv.el to control mpv process"
   )
 ;;; 配置 gdscript-mode
 
-(defun xiliuya/eglot-add-gdscript-lsp ()
-  (let* ((lsp-port (string-to-number
-                    (shell-command-to-string
-                     "awk -F'=' '/network\\/language_server\\/remote_port/ {print $2;}' $HOME/.config/godot/editor_settings-4.tres")))
-         (lsp-list (cons 'gdscript-mode  (list "localhost" lsp-port
-                                               ))))
-    (push  lsp-list
-           eglot-server-programs)))
-
-(with-eval-after-load 'gdscript-mode
-  ;; debugger port
-  (setq gdscript-debug-port 6007)
-  (xiliuya/eglot-add-gdscript-lsp)
-  )
 
 ;;; 配置为英语 time string
 (setq system-time-locale "C")
