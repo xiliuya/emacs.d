@@ -9,7 +9,11 @@
 ;;; Code:
 
 (setq package-enable-at-startup nil)
-(setq no-native-compile t)
+
+;; 配置 native-compile 包安装时启用
+(setq package-native-compile t)
+;;不编译 elc
+(setq native-comp-jit-compilation nil)
 ;; So we can detect this having been loaded
 (provide 'early-init)
 
