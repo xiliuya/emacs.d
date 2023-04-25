@@ -64,3 +64,4 @@ org-roam.db
 /pyim/
 /multisession/
 /.backups/
+/.dap-breakpoints
