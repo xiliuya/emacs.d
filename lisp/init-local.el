@@ -121,21 +121,13 @@
 (define-key evil-normal-state-map (kbd "<tab>") 'my/evil-org-tab)
 ;;;(define-key evil-normal-state-map (kbd "<tab>") 'org-cycle)
 
-;;; 配置 插入模式键绑定
-(defun maple/define-key (keymap key def &rest bindings)
-  "Define multi keybind with KEYMAP KEY DEF BINDINGS."
-  (interactive)
-  (while key
-    (define-key keymap key def)
-    (setq key (pop bindings)
-          def (pop bindings))))
+;;; 配置 插入模式键 移动绑定
 
-(maple/define-key evil-insert-state-map
-                  (kbd "M-h") (kbd "<left>")
-                  (kbd "M-l") (kbd "<right>")
-                  (kbd "M-j") (kbd "<down>")
-                  (kbd "M-k") (kbd "<up>"))
-
+(with-eval-after-load 'evil
+  (keymap-set evil-insert-state-map "M-h" #'left-char)
+  (keymap-set evil-insert-state-map "M-l" #'right-char)
+  (keymap-set evil-insert-state-map "M-j" #'next-line)
+  (keymap-set evil-insert-state-map "M-k" #'previous-line))
 ;;; 配置 evil-ex
 
 (evil-ex-define-cmd "k[illbuffer]" 'kill-this-buffer)
