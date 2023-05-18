@@ -43,9 +43,12 @@
 (require-package 'code-cells)
 
 (require-package 'live-py-mode)
+(require-package 'poetry)
 (require-package 'go-mode)
 
 (require-package 'gdscript-mode)
+(require-package 'bison-mode)
+
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
 
@@ -290,10 +293,10 @@
 ;;; 配置 eglot
 ;; mode-hook
 (dolist (hook-mode '(python-mode-hook
-                     c-mode-hook
+                     ;; c-mode-hook
                      rust-mode-hook
                      haskell-mode-hook
-                     gdscript-mode
+                     ;; gdscript-mode-hook
                      ))
   (add-hook hook-mode 'eglot-ensure)
   )
@@ -345,6 +348,9 @@
                        (("\\.\\([cC]\\|cc\\|cpp\\)\\'"
                          . "C++ source")
                         . ["template.c" my/autoinsert-yas-expand])
+                       (("\\.\\([lL]\\|lex\\)\\'"
+                         . "Flex source")
+                        . ["template.l" my/autoinsert-yas-expand])
                        (("\\.rs\\'"
                          . "Rust source")
                         . ["template.rs" my/autoinsert-yas-expand])

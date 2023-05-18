@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: rule
+# key: ru
+# --
+%%
+[0-9]+  { return INTEGER; }
+$0
+%%
