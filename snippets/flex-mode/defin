@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: defin
+# key: def
+# --
+%{
+#include "stdio.h"
+$0
+%}
