@@ -47,7 +47,9 @@
 (require-package 'go-mode)
 
 (require-package 'gdscript-mode)
-(require-package 'bison-mode)
+
+(require-package 'markdown-toc)
+
 
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
@@ -109,6 +111,7 @@
 
   ;; 某些模式不使用 evil
   (evil-set-initial-state 'haskell-error-mode 'emacs)
+  (evil-set-initial-state 'xref--xref-buffer-mode 'emacs)
   )
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
@@ -811,8 +814,24 @@ Uses mpv.el to control mpv process"
   (setq nov-unzip-program (executable-find "bsdtar")
         nov-unzip-args '("-xC" directory "-f" filename))
   )
+
+;;; 配置 markdown-toc
+(with-eval-after-load 'markdown-toc
+  (custom-set-variables '(markdown-toc-user-toc-structure-manipulation-fn 'cdr))
+  (setq markdown-toc-indentation-space 2)
+  (defun markdown-toc--compute-toc-structure (imenu-index)
+    "Given a IMENU-INDEX, compute the TOC structure."
+    (--mapcat (markdown-toc--compute-toc-structure-from-level
+               (if (eq markdown-toc-user-toc-structure-manipulation-fn 'cdr)
+                   -1
+                 0)
+               it)
+              imenu-index)))
+
 ;;; 配置 gdscript-mode
 
+;;; 配置 bison/flex
+(add-to-list 'auto-mode-alist '("\\.l\\'" . c-mode))
 
 ;;; 配置为英语 time string
 (setq system-time-locale "C")
