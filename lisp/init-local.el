@@ -679,6 +679,9 @@ Uses mpv.el to control mpv process"
              '(c-or-c++-mode . c-or-c++-ts-mode))
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
+(setq treesit-extra-load-path
+      (list (expand-file-name "~/.emacs.d/treesit/")))
+
 ;; 直接将 hook 赋值给新的 hook
 (setq c-ts-mode-hook c-mode-hook)
 (setq python-ts-mode-hook python-mode-hook)
