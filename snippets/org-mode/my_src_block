@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: my_src_block
+# key: plg
+# --
+
+#+begin_src `(or (cdr (assoc-string "P_L_G"  (org-entry-properties))) "")`
+$1
+#+end_src

@@ -203,9 +203,35 @@
 
 ;;; hack async 解决出现多个 *emacs*:err buffer
 
-;;; 配置 org 导出添加markdown 格式
 (with-eval-after-load 'org
-  (add-to-list 'org-export-backends 'md))
+  ;; 配置 org 导出添加markdown 格式
+  (add-to-list 'org-export-backends 'md)
+
+  (defun xiliuya/org-link-make-regexps-advice ()
+    "修改正则不匹配 [[]] 中 : 开头的字符串,
+实现[[:abc:]] 格式不转为链接."
+    (setq org-link-bracket-re
+          (rx (seq "[["
+                   ;; URI part: match group 1.
+                   (group
+                    (and (not ":")
+                         (zero-or-more
+                          (or (not (any "[]\\"))
+                              (and "\\" (zero-or-more "\\\\") (any "[]"))
+                              (and (one-or-more "\\") (not (any "[]"))))
+                          )))
+                   "]"
+                   ;; Description (optional): match group 2.
+                   (opt "[" (group (+? anything)) "]")
+                   "]")))
+
+    (setq org-any-link-re
+          (concat "\\(" org-link-bracket-re "\\)\\|\\("
+                  org-link-angle-re "\\)\\|\\("
+                  org-link-plain-re "\\)")))
+  ;; 由于 'org-link-make-regexps 被调用多次,会在配置后被重新初始化,所以需要 advice after 执行
+  (advice-add 'org-link-make-regexps :after 'xiliuya/org-link-make-regexps-advice))
+
 
 ;; 配置 html 导出头
 (setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/org.css\"/>")
