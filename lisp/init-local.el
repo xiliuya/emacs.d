@@ -50,6 +50,7 @@
 
 (require-package 'markdown-toc)
 
+(require-package 'plantuml-mode)
 
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
@@ -112,6 +113,7 @@
   ;; 某些模式不使用 evil
   (evil-set-initial-state 'haskell-error-mode 'emacs)
   (evil-set-initial-state 'xref--xref-buffer-mode 'emacs)
+  (evil-set-initial-state 'image-mode 'emacs)
   )
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
@@ -254,15 +256,10 @@
     (replace-match "[[id:"))
   )
 ;;(xiliuya/org-roam-to-html)
-
-;;; 配置 org 下的 ditaa plantuml
-(setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
-(setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
-
-
 ;;; 配置 org-agenda
 ;; 配置目录
-(setq org-agenda-files '("~/myday/daily/"))
+;; 暂时取消
+;; (setq org-agenda-files '("~/myday/daily/"))
 
 ;;; 配置 org-roam
 
@@ -750,41 +747,6 @@ Uses mpv.el to control mpv process"
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
   )
 
-;;; 配置 cape 补全
-;; (with-eval-after-load 'cape
-
-;;   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-;;   (add-to-list 'completion-at-point-functions #'cape-file)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-history)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-tex)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
-;;   ;;(add-to-list 'completion-at-point-functions #'cape-line)
-;;   )
-
-(dolist (key-tmp '(("C-c f p" . completion-at-point) ;; capf
-                   ("C-c f t" . complete-tag)        ;; etags
-                   ("C-c f d" . cape-dabbrev) ;; or dabbrev-completion
-                   ("C-c f h" . cape-history)
-                   ("C-c f f" . cape-file)
-                   ("C-c f k" . cape-keyword)
-                   ("C-c f s" . cape-symbol)
-                   ("C-c f a" . cape-abbrev)
-                   ("C-c f i" . cape-ispell)
-                   ("C-c f l" . cape-line)
-                   ("C-c f w" . cape-dict)
-                   ("C-c f \\" . cape-tex)
-                   ("C-c f _" . cape-tex)
-                   ("C-c f ^" . cape-tex)
-                   ("C-c f &" . cape-sgml)
-                   ("C-c f r" . cape-rfc1345)))
-  (global-set-key (kbd (car key-tmp)) (cdr key-tmp))
-  )
 
 ;;; magit gpg tty sign
 ;; 目前只能手动使用, 未找到合适 hook 点.
@@ -876,6 +838,8 @@ Uses mpv.el to control mpv process"
 (require 'init-org-crypt)
 ;; 配置 evil
 (require 'init-evil)
+(require 'init-cape)
 
+(require 'init-plantuml)
 (provide 'init-local)
 ;;; init-local.el ends here
