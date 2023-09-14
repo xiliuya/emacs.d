@@ -238,6 +238,11 @@ folding."
             (mu4e-headers-next)))))))
 
 
+(defun mu4e-switch-update-buffer ()
+  "当 mu4e 在进行后台更新时,将当前 window 切换到 update buffer."
+  (interactive)
+  (if (buffer-live-p mu4e--update-buffer)
+      (switch-to-buffer mu4e--update-buffer)))
 
 (provide 'init-mu4e)
 ;;; init-mu4e.el ends here
