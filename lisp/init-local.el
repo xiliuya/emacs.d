@@ -400,6 +400,9 @@
                        (("[mM]akefile\\'"
                          . "Makefile")
                         . ["Makefile" my/autoinsert-yas-expand])
+                       (("\\.\\(asm\\|ASM\\)\\'"
+                         . "Assemble")
+                        . ["template.asm" my/autoinsert-yas-expand])
                        (("\\.tex\\'"
                          . "TeX/LaTeX")
                         . ["template.tex"
