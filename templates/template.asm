@@ -4,9 +4,9 @@
         ;; version      : 1.0
         ;; description  : 一个 Linux 下汇编应用程序, 使用 NASM 2.16
         ;; .
-        ;; compile with command:
-        ;; nasm -f elf -g -F stabs eatsyscall.asm
-        ;; ld -o eatsyscall eatsyscall.o
+        ;; compile command:
+        ;; nasm -f elf -g -F stabs `(buffer-name)`
+        ;; ld -m elf_i386 -o `(file-name-base (buffer-name))` `(file-name-base (buffer-name))`.o
         ;;
 
         SECTION .data           ; 包含已初始化的数据的段
@@ -25,3 +25,10 @@ _exit:
         mov eax,1               ; 指定 Exit 系统调用
         mov ebx,0               ; 返回一个零值
         int 80H                 ; 进行系统调用来终止程序
+
+        ;; Local Variables:
+        ;; mode: asm
+        ;; fill-column: 70
+        ;; comment-column: 30
+        ;; compile-command: "nasm -f elf -g -F stabs `(buffer-name)` && ld -m elf_i386 -o `(file-name-base (buffer-name))` `(file-name-base (buffer-name))`.o"
+        ;; End:
