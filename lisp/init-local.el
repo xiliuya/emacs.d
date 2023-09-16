@@ -52,6 +52,8 @@
 
 (require-package 'plantuml-mode)
 
+(require-package 'pdf-tools)
+
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
 
@@ -114,6 +116,8 @@
   (evil-set-initial-state 'haskell-error-mode 'emacs)
   (evil-set-initial-state 'xref--xref-buffer-mode 'emacs)
   (evil-set-initial-state 'image-mode 'emacs)
+  (evil-set-initial-state 'newsticker-mode 'emacs)
+  (evil-set-initial-state 'newsticker-treeview-mode 'emacs)
   )
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
@@ -826,7 +830,9 @@ Uses mpv.el to control mpv process"
 
 ;;; 配置 bison/flex
 (add-to-list 'auto-mode-alist '("\\.l\\'" . c-mode))
-
+;;; 配置 pdf 使用 pdf-tools
+(pdf-tools-install)  ; Standard activation command
+(pdf-loader-install) ; On demand loading, leads to faster startup time
 ;;; 配置为英语 time string
 (setq system-time-locale "C")
 ;; 配置 mu4e 邮箱
