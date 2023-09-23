@@ -48,6 +48,9 @@
 
 (require-package 'gdscript-mode)
 
+(require-package 'nasm-mode)
+(require-package 'flymake-nasm)
+
 (require-package 'markdown-toc)
 
 (require-package 'plantuml-mode)
@@ -464,9 +467,13 @@
   )
 
 ;;; org-download 配置
-(require 'org-download)
+;; (require 'org-download)
 ;;;(setq org-download-screenshot-method "flameshot gui --raw >%s")
-(setq org-download-screenshot-method "grim -g \"$(slurp)\" %s")
+
+(org-download-enable)
+
+(with-eval-after-load 'org-download
+  (setq org-download-screenshot-method "grim -g \"$(slurp)\" %s"))
 ;;;(setq org-download-method 'directory)
 
 ;;; 屏蔽默认的图片保存, 直接保存到 ./images/xxx.png
@@ -830,6 +837,16 @@ Uses mpv.el to control mpv process"
 
 ;;; 配置 bison/flex
 (add-to-list 'auto-mode-alist '("\\.l\\'" . c-mode))
+
+;;; 配置 nasm-mode
+(add-hook 'nasm-mode-hook #'flymake-nasm-setup)
+(with-eval-after-load 'nasm-mode
+  (setq flymake-nasm-format "elf")
+  )
+(setq auto-mode-alist
+      (assoc-delete-all "\\.asm\\'" auto-mode-alist))
+(push '("\\.asm\\'" . nasm-mode) auto-mode-alist)
+
 ;;; 配置 pdf 使用 pdf-tools
 (pdf-tools-install)  ; Standard activation command
 (pdf-loader-install) ; On demand loading, leads to faster startup time

@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: function
+# key: f_
+# --
+
+;; ---------------------------------------------------------------
+;; $0:
+;; UPDATE:      `(format-time-string "%m/%d/%Y")`
+;; IN:          .
+;; RETURNS:
+;; MODIFIES:
+;; CALLS:
+;; DESCTIPTION:
