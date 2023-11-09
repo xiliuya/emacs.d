@@ -628,7 +628,9 @@ Uses mpv.el to control mpv process"
 
           )))
   ;; 修复 python 3.11 更新后, jupyter 输出会警告.
-  (setq ob-ipython-command "PYDEVD_DISABLE_FILE_VALIDATION=1 jupyter"))
+  ;; 已不再需要
+  ;; (setq ob-ipython-command "PYDEVD_DISABLE_FILE_VALIDATION=1 jupyter")
+  )
 
 ;;(add-hook 'org-mode-hook 'prose-mode)
 ;;; 配置 ipython 使用 code-cell
