@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: macro
+# key: m_
+# --
+%macro $1 $2
+       $3
+%endmacro
