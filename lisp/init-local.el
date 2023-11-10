@@ -627,9 +627,8 @@ Uses mpv.el to control mpv process"
           (-when-let (val (cdr (assoc 'text/plain values))) (funcall txt val))
 
           )))
-  ;; 修复 python 3.11 更新后, jupyter 输出会警告.
-  ;; 已不再需要
-  ;; (setq ob-ipython-command "PYDEVD_DISABLE_FILE_VALIDATION=1 jupyter")
+  ;; 修复 python 3.11 更新后, jupyter 输出会警告, 导致 org 报错.
+  (setenv "PYDEVD_DISABLE_FILE_VALIDATION" "1")
   )
 
 ;;(add-hook 'org-mode-hook 'prose-mode)
