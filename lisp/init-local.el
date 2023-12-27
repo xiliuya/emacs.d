@@ -57,6 +57,8 @@
 
 (require-package 'pdf-tools)
 
+(require-package 'telega)
+
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
 
@@ -105,10 +107,13 @@
 
 ;;; 配置 evil
 
-;;; (require 'evil)
+(require 'evil)
 ;; evil-collection 配置
 ;; (setq evil-want-keybinding 'nil)
-(evil-mode)
+;; (evil-mode)
+(setq evil-mode-list-p '(prog-mode-hook org-mode-hook))
+(dolist (mode-p evil-mode-list-p)
+  (add-hook mode-p (lambda () (evil-local-mode 1))))
 ;;; (local-set-key (kbd "jj") 'evil-normal-state)
 (with-eval-after-load 'evil
   (evil-escape-mode)
@@ -116,11 +121,11 @@
   (setq  evil-symbol-word-search  20)
 
   ;; 某些模式不使用 evil
-  (evil-set-initial-state 'haskell-error-mode 'emacs)
-  (evil-set-initial-state 'xref--xref-buffer-mode 'emacs)
-  (evil-set-initial-state 'image-mode 'emacs)
-  (evil-set-initial-state 'newsticker-mode 'emacs)
-  (evil-set-initial-state 'newsticker-treeview-mode 'emacs)
+  ;; (evil-set-initial-state 'haskell-error-mode 'emacs)
+  ;; (evil-set-initial-state 'xref--xref-buffer-mode 'emacs)
+  ;; (evil-set-initial-state 'image-mode 'emacs)
+  ;; (evil-set-initial-state 'newsticker-mode 'emacs)
+  ;; (evil-set-initial-state 'newsticker-treeview-mode 'emacs)
   )
 (setq-default evil-escape-key-sequence "jk")
 (setq-default evil-escape-delay 0.2)
@@ -847,6 +852,9 @@ Uses mpv.el to control mpv process"
 (setq auto-mode-alist
       (assoc-delete-all "\\.asm\\'" auto-mode-alist))
 (push '("\\.asm\\'" . nasm-mode) auto-mode-alist)
+
+;;; 配置 gnugpg 2.4.1+ epa 卡死
+(fset 'epg-wait-for-status 'ignore)
 
 ;;; 配置 pdf 使用 pdf-tools
 (pdf-tools-install)  ; Standard activation command
