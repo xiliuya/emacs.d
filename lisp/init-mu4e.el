@@ -73,7 +73,10 @@
   (setq mu4e-contexts
         `(,(my-make-mu4e-context
             "aliyun" "xiliuya"
-            "xiliuya@aliyun.com" "xiliuya :)")))
+            "xiliuya@aliyun.com" "xiliuya :)")
+          ,(my-make-mu4e-context
+            "xyz" "xiliuya"
+            "xiliuya@xiliuya.xyz" "xiliuya :-)")))
 
   (setq
    mu4e-get-mail-command "offlineimap" ;; or fetchmail, or ...
@@ -103,11 +106,14 @@
 
   ;; 自定义文件夹 aliyun 邮箱
   (setq mu4e-maildir-shortcuts
-        '( (:maildir "/INBOX"              :key ?i)
-           (:maildir "/草稿"                :key ?c)
-           (:maildir "/垃圾邮件"             :key ?l)
-           (:maildir "/已删除邮件"           :key ?d)
-           (:maildir "/已发送"              :key ?f)
+        '( (:maildir "/ali/INBOX"              :key ?i)
+           (:maildir "/ali/草稿"                :key ?c)
+           (:maildir "/ali/垃圾邮件"             :key ?l)
+           (:maildir "/ali/已删除邮件"           :key ?d)
+           (:maildir "/ali/已发送"              :key ?f)
+           (:maildir "/xyzdir/INBOX"              :key ?I)
+           (:maildir "/xyzdir/Sent/"              :key ?S)
+           (:maildir "/xyzdir/Trash/"              :key ?T)
            (:maildir "/aliyun/Archive"     :key ?a :hide t)
            (:maildir "/aliyun/Sent"        :key ?s :hide t)
            (:maildir "/aliyun/Drafts"      :key ?D :hide t)
@@ -122,6 +128,22 @@
 ;; (require 'message-view-patch)
 ;; (add-hook 'mu4e-view-mode-hook #'message-view-patch-highlight)
 
+;;; 配置 smtp 跟随 mu4e 切换邮箱
+
+(setq mail-lists-p '(("xiliuya@aliyun.com" "smtp.aliyun.com" 465)
+                     ("xiliuya@xiliuya.xyz" "mx.xiliuya.xyz" 465)))
+(defun xiliuya/smtpmail-set-address ()
+  "Set smtpmail address from mail-lists-p and mu4e-context-current"
+  (let ((mail-p (mu4e-context-vars (mu4e-context-current))))
+    (dolist (mail-list-p mail-lists-p)
+      (if (equal (alist-get 'user-mail-address mail-p)
+                 (car mail-list-p))
+          (setq user-mail-address (car mail-list-p)
+                smtpmail-smtp-server (nth 1 mail-list-p)
+                smtpmail-smtp-service (nth 2 mail-list-p))))))
+
+(add-hook 'mu4e-context-changed-hook 'xiliuya/smtpmail-set-address)
+
 (add-hook 'gnus-part-display-hook 'message-view-patch-highlight)
 
 (require 'authinfo)
@@ -131,8 +153,7 @@
 (defun offlineimap-get-password (host user)
   "Return authinfo password."
   (authinfo-copy-password host user)
-  (car authinfo-copied-passwords)
-  )
+  (car authinfo-copied-passwords))
 
 ;;; org-msg 暂时不做考虑使用
 (with-eval-after-load 'org-msg
