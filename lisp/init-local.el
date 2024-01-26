@@ -497,21 +497,20 @@
 (define-key org-mode-map (kbd "C-c s c") #'org-download-clipboard)
 
 ;;; 配置 org-mpv-mode
-(with-eval-after-load 'org-mpv-notes
-  (define-minor-mode org-mpv-notes
-    "Org minor mode for Note taking alongside audio and video.
+(define-minor-mode org-mpv-notes
+  "Org minor mode for Note taking alongside audio and video.
 Uses mpv.el to control mpv process"
-    :keymap `((,(kbd "M-n i") . mpv-insert-playback-position)
-              (,(kbd "M-n M-i") . org-mpv-notes-insert-note)
-              (,(kbd "M-n u") . mpv-revert-seek)
-              (,(kbd "M-n s") . org-mpv-notes-save-screenshot)
-              (,(kbd "M-n o") . org-mpv-notes-open)
-              (,(kbd "M-n k") . mpv-kill)
-              (,(kbd "M-n t") . org-mpv-notes-this-timestamp)
-              (,(kbd "M-n M-s") . org-mpv-notes-screenshot-ocr))
-    (if org-mpv-notes
-        ()
-      (mpv-kill))))
+  :keymap `((,(kbd "M-n i") . mpv-insert-playback-position)
+            (,(kbd "M-n M-i") . org-mpv-notes-insert-note)
+            (,(kbd "M-n u") . mpv-revert-seek)
+            (,(kbd "M-n s") . org-mpv-notes-save-screenshot)
+            (,(kbd "M-n o") . org-mpv-notes-open)
+            (,(kbd "M-n k") . mpv-kill)
+            (,(kbd "M-n t") . org-mpv-notes-this-timestamp)
+            (,(kbd "M-n M-s") . org-mpv-notes-screenshot-ocr))
+  (if org-mpv-notes
+      ()
+    (mpv-kill)))
 
 (add-hook 'org-mode-hook 'org-mpv-notes)
 
@@ -854,7 +853,7 @@ Uses mpv.el to control mpv process"
 (push '("\\.asm\\'" . nasm-mode) auto-mode-alist)
 
 ;;; 配置 gnugpg 2.4.1+ epa 卡死
-(fset 'epg-wait-for-status 'ignore)
+;;; (fset 'epg-wait-for-status 'ignore)
 
 ;;; 配置 pdf 使用 pdf-tools
 (pdf-tools-install)  ; Standard activation command
