@@ -59,6 +59,11 @@
 
 (require-package 'telega)
 
+
+(require-package 'org-msg)
+(require-package 'mu4e-column-faces)
+(require-package 'message-view-patch)
+
 ;;; 配置 sdcv
 ;;; (require 'sdcv)
 

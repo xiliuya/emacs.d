@@ -2,9 +2,6 @@
 ;;; Commentary: my email
 ;;; Code:
 
-(require-package 'org-msg)
-(require-package 'mu4e-column-faces)
-(require-package 'message-view-patch)
 
 ;; 配置邮箱地址
 (setq user-mail-address	"xiliuya@aliyun.com"
